@@ -6,10 +6,10 @@ class Message extends React.Component {
 
   render() {
     return (
-      <div className={`row message ${this.props.isRead}`}>
+      <div className={`row message ${this.props.eachMessage.read ? "read" : "unread" }`}>
         <div className="col-xs-1">
           <div className="row">
-            <div className="col-xs-2">
+            <div className="col-xs-2" onClick={ this.props.changeCheckState.bind(null, this.props.eachMessage.id) }>
               <input
                 type="checkbox"
                 defaultChecked={this.props.eachMessage.selected ? "checked" : ""}

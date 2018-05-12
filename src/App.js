@@ -17,7 +17,6 @@ class App extends Component {
     const i = this.state.allMessages.findIndex(message => message.id === id)
     const firstHalf = this.state.allMessages.slice(0, i)
     const secondHalf = this.state.allMessages.slice(i + 1)
-    console.log(itemToChange)
     if(itemToChange.starred){
       itemToChange.starred = false
       this.setState({
@@ -30,11 +29,49 @@ class App extends Component {
       })
     }
   }
+
+  changeCheckState = id => {
+    const itemToChange = this.state.allMessages.filter((message) => message.id === id)[0]
+    const i = this.state.allMessages.findIndex(message => message.id === id)
+    const firstHalf = this.state.allMessages.slice(0, i)
+    const secondHalf = this.state.allMessages.slice(i + 1)
+    if(itemToChange.selected){
+      itemToChange.selected = false
+      this.setState({
+        allMessages: firstHalf.concat([itemToChange], secondHalf)
+      })
+    } else {
+      itemToChange.selected = true
+      this.setState({
+        allMessages: firstHalf.concat([itemToChange], secondHalf)
+      })
+    }
+  }
+
+  changeCheckState = id => {
+    const itemToChange = this.state.allMessages.filter((message) => message.id === id)[0]
+    const i = this.state.allMessages.findIndex(message => message.id === id)
+    const firstHalf = this.state.allMessages.slice(0, i)
+    const secondHalf = this.state.allMessages.slice(i + 1)
+    if(itemToChange.selected){
+      itemToChange.selected = false
+      this.setState({
+        allMessages: firstHalf.concat([itemToChange], secondHalf)
+      })
+    } else {
+      itemToChange.selected = true
+      this.setState({
+        allMessages: firstHalf.concat([itemToChange], secondHalf)
+      })
+    }
+  }
+
+
   render() {
     return (
       <div className="App">
         <Toolbar />
-        <MessageList changeStarState={ this.changeStarState } allMessages={ this.state.allMessages }/>
+        <MessageList changeCheckState={ this.changeCheckState } changeStarState={ this.changeStarState } allMessages={ this.state.allMessages }/>
       </div>
     );
   }

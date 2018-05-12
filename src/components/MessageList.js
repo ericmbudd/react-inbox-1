@@ -3,18 +3,6 @@ import Message from '../components/Message'
 
 
 class MessageList extends React.Component {
-  // onBoxCheck = (id) => {
-  //   // const isChecked = !event.target.checked
-  //   console.log(id)
-  //   console.log('hello')
-  // }
-
-  clickStar = (event) => {
-    const starIsFilled = event.target.classList.value.split(' ').includes('fa-star')
-    console.log(starIsFilled)
-    // console.log(this.state.allMessages.map(x => x.starred))
-  }
-
 
   render() {
     return (
@@ -22,12 +10,10 @@ class MessageList extends React.Component {
         {
           this.props.allMessages.map((eachMessage, id) => (
             <Message
-              onBoxCheck={ this.onBoxCheck }
-              isRead={ eachMessage.read ? "read" : "unread" }
-              key={id} isStarred={ this.isStarred }
+              key={id}
               eachMessage={ eachMessage }
-              clickStar={ this.clickStar }
               changeStarState={ this.props.changeStarState }
+              changeCheckState = { this.props.changeCheckState }
             />
           ))
         }
