@@ -8,7 +8,7 @@ class Toolbar extends React.Component {
             <div className="col-md-12">
               <p className="pull-right">
                 <span className="badge badge">{this.props.unreadMessages()}</span>
-                unread messages
+                {this.props.unreadMessages() > 1 ? "unread messages" : "unread message"}
               </p>
 
               <button className="btn btn-default">
