@@ -1,6 +1,16 @@
 import React from 'react'
 
 class Toolbar extends React.Component {
+
+    addLabelHandler = (event) => {
+      return this.props.applyLabel(event.target.value)
+    }
+
+    removeLabelHandler = (event) => {
+      return this.props.removeLabel(event.target.value)
+    }
+
+
     render() {
       return (
         <div className="container">
@@ -30,7 +40,7 @@ class Toolbar extends React.Component {
                 Mark As Unread
               </button>
 
-              <select className="form-control label-select"
+              <select onChange={ this.addLabelHandler } className="form-control label-select"
                 disabled={ this.props.isDisabled() } >
                 <option>Apply label</option>
                 <option value="dev">dev</option>
@@ -38,7 +48,7 @@ class Toolbar extends React.Component {
                 <option value="gschool">gschool</option>
               </select>
 
-              <select className="form-control label-select"
+              <select onChange={ this.removeLabelHandler } className="form-control label-select"
                 disabled={ this.props.isDisabled() } >
                 <option>Remove label</option>
                 <option value="dev">dev</option>

@@ -97,6 +97,30 @@ class App extends Component {
     })
   }
 
+  applyLabel = (newLabel) => {
+    const toApplyLabel = this.state.allMessages.filter(m => m.selected).map(x => x.id)
+    this.setState({
+      allMessages: this.state.allMessages.map(m => {
+        if (toApplyLabel.includes(m.id)){
+          m.labels = m.labels.includes(newLabel) ? m.labels.concat([]) : m.labels.concat(newLabel)
+        }
+        return m
+      })
+    })
+  }
+
+  removeLabel = (labelToRemove) => {
+    const toRemoveLabel = this.state.allMessages.filter(m => m.selected).map(x => x.id)
+    this.setState({
+      allMessages: this.state.allMessages.filter(m => {
+        if (toRemoveLabel.includes(m.id)){
+          m.labels = m.labels.filter(l => l !== labelToRemove)
+        }
+        return m
+      })
+    })
+  }
+
 
   render() {
     return (
@@ -109,6 +133,8 @@ class App extends Component {
           allMessages={ this.state.allMessages }
           markAsRead={ this.markAsRead }
           markAsUnRead={ this.markAsUnRead }
+          applyLabel={ this.applyLabel }
+          removeLabel={ this.removeLabel }
           />
 
         <MessageList
