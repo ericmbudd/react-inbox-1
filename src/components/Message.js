@@ -13,7 +13,7 @@ class Message extends React.Component {
               <input
                 onClick={ this.props.changeCheckState.bind(null, this.props.eachMessage.id) }
                 type="checkbox"
-                defaultChecked={this.props.eachMessage.selected ? "checked" : ""}
+                checked={this.props.eachMessage.selected ? "checked" : ""}
               />
             </div>
             <div className="col-xs-2" >
@@ -26,8 +26,7 @@ class Message extends React.Component {
           </div>
         </div>
         <div className="col-xs-11">
-          {
-            this.props.eachMessage.labels.length > 0 ?
+          { this.props.eachMessage.labels.length > 0 ?
             this.props.eachMessage.labels.map((label, id) => <span key={id} className="label label-warning">{label}</span>) : ""
           }
           <a href="#">

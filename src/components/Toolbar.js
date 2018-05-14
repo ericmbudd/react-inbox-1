@@ -11,8 +11,15 @@ class Toolbar extends React.Component {
                 {this.props.unreadMessages() > 1 ? "unread messages" : "unread message"}
               </p>
 
-              <button className="btn btn-default">
-                <i className="fa fa-square-o"></i>
+              <button onClick={ this.props.selectAllMessages } className="btn btn-default">
+                {
+                  this.props.allMessages.filter(m => m.selected).length > 0 &&
+                  this.props.allMessages.filter(m => m.selected).length < 8 ?
+                  <i className="fa fa-minus-square-o"></i> :
+                  this.props.allMessages.filter(m => m.selected).length < 1 ?
+                  <i className="fa fa-square-o"></i> :
+                  <i className="fa fa-check-square-o"></i>
+                }
               </button>
 
               <button className="btn btn-default">

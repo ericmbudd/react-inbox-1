@@ -52,11 +52,28 @@ class App extends Component {
     return this.state.allMessages.filter(m => m.read === false).length
   }
 
+  selectAllMessages = (e) => {
+    e.preventDefault()
+    if(this.state.allMessages.filter(m => m.selected === true).length < 8){
+      this.setState({
+        allMessages: this.state.allMessages.map(m => {
+            return {...m, selected: true}
+        })
+      })
+    } else {
+      this.setState({
+        allMessages: this.state.allMessages.map(m => {
+          return {...m, selected: false}
+        })
+      })
+    }
+  }
+
 
   render() {
     return (
       <div className="App">
-        <Toolbar unreadMessages={ this.unreadMessages } />
+        <Toolbar selectAllMessages={ this.selectAllMessages } unreadMessages={ this.unreadMessages } allMessages={ this.state.allMessages } />
         <MessageList changeCheckState={ this.changeCheckState } changeStarState={ this.changeStarState } allMessages={ this.state.allMessages }/>
       </div>
     );
