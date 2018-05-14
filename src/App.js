@@ -69,16 +69,53 @@ class App extends Component {
     }
   }
 
-  messagesSelected = () => {
-    return this.state.allMessages.filter(m => m.selected === true).length < 1 ? 'disabled' : ""
+  isDisabled = () => {
+    return this.state.allMessages.filter(m => m.selected === true).length < 1 ? 'true' : ""
+  }
+
+  markAsRead = () => {
+    const toMarkAsRead = this.state.allMessages.filter(m => m.selected).map(x => x.id)
+    this.setState({
+      allMessages: this.state.allMessages.map(m => {
+        if (toMarkAsRead.includes(m.id)){
+          m.read = true
+        }
+        return m
+      })
+    })
+  }
+
+  markAsUnRead = () => {
+    const toMarkAsUnRead = this.state.allMessages.filter(m => m.selected).map(x => x.id)
+    this.setState({
+      allMessages: this.state.allMessages.map(m => {
+        if (toMarkAsUnRead.includes(m.id)){
+          m.read = false
+        }
+        return m
+      })
+    })
   }
 
 
   render() {
     return (
       <div className="App">
-        <Toolbar messagesSelected={ this.messagesSelected } selectAllMessages={ this.selectAllMessages } unreadMessages={ this.unreadMessages } allMessages={ this.state.allMessages } />
-        <MessageList changeCheckState={ this.changeCheckState } changeStarState={ this.changeStarState } allMessages={ this.state.allMessages }/>
+
+        <Toolbar
+          isDisabled={ this.isDisabled }
+          selectAllMessages={ this.selectAllMessages }
+          unreadMessages={ this.unreadMessages }
+          allMessages={ this.state.allMessages }
+          markAsRead={ this.markAsRead }
+          markAsUnRead={ this.markAsUnRead }
+          />
+
+        <MessageList
+           changeCheckState={ this.changeCheckState }
+           changeStarState={ this.changeStarState }
+           allMessages={ this.state.allMessages } />
+
       </div>
     );
   }

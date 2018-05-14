@@ -1,9 +1,6 @@
 import React from 'react'
 
 class Message extends React.Component {
-
-
-
   render() {
     return (
       <div className={`row message ${this.props.eachMessage.read ? "read" : "unread" } ${this.props.eachMessage.selected ? "selected" : ""}`}>
