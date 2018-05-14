@@ -11,7 +11,7 @@ class Message extends React.Component {
           <div className="row">
             <div className="col-xs-2">
               <input
-                onClick={ this.props.changeCheckState.bind(null, this.props.eachMessage.id) }
+                onChange={ this.props.changeCheckState.bind(null, this.props.eachMessage.id) }
                 type="checkbox"
                 checked={this.props.eachMessage.selected ? "checked" : ""}
               />

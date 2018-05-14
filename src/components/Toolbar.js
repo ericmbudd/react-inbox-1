@@ -22,29 +22,29 @@ class Toolbar extends React.Component {
                 }
               </button>
 
-              <button className="btn btn-default">
+              <button className={`btn btn-default ${ this.props.messagesSelected() } `}>
                 Mark As Read
               </button>
 
-              <button className="btn btn-default">
+              <button className={`btn btn-default ${ this.props.messagesSelected() } `}>
                 Mark As Unread
               </button>
 
-              <select className="form-control label-select">
+              <select className="form-control label-select" disabled={ this.props.allMessages.filter(m => m.selected === true).length < 1 ? 'true' : '' } >
                 <option>Apply label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
                 <option value="gschool">gschool</option>
               </select>
 
-              <select className="form-control label-select">
+              <select className="form-control label-select" disabled={ this.props.allMessages.filter(m => m.selected === true).length < 1 ? 'true' : '' } >
                 <option>Remove label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
                 <option value="gschool">gschool</option>
               </select>
 
-              <button className="btn btn-default">
+              <button className={`btn btn-default ${ this.props.messagesSelected()} `}>
                 <i className="fa fa-trash-o"></i>
               </button>
             </div>

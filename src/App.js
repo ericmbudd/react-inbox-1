@@ -69,11 +69,15 @@ class App extends Component {
     }
   }
 
+  messagesSelected = () => {
+    return this.state.allMessages.filter(m => m.selected === true).length < 1 ? 'disabled' : ""
+  }
+
 
   render() {
     return (
       <div className="App">
-        <Toolbar selectAllMessages={ this.selectAllMessages } unreadMessages={ this.unreadMessages } allMessages={ this.state.allMessages } />
+        <Toolbar messagesSelected={ this.messagesSelected } selectAllMessages={ this.selectAllMessages } unreadMessages={ this.unreadMessages } allMessages={ this.state.allMessages } />
         <MessageList changeCheckState={ this.changeCheckState } changeStarState={ this.changeStarState } allMessages={ this.state.allMessages }/>
       </div>
     );
