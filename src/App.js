@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
 import MessageList from './components/MessageList'
 import Toolbar from './components/Toolbar'
+// import './App.css';
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      allMessages: this.props.allMessages
+      allMessages: this.props.allMessages,
+      composeIsOpen: false
     }
   }
 
@@ -130,6 +131,14 @@ class App extends Component {
     })
   }
 
+  openCloseCompose = () => {
+    this.setState({ composeIsOpen: !this.state.composeIsOpen })
+  }
+
+  isComposeOpen = () => {
+    return this.state.composeIsOpen
+  }
+
   render() {
     return (
       <div className="App">
@@ -144,6 +153,8 @@ class App extends Component {
           applyLabel={ this.applyLabel }
           removeLabel={ this.removeLabel }
           deleteMessage={ this.deleteMessage }
+          openCloseCompose={ this.openCloseCompose }
+          isComposeOpen={ this.isComposeOpen }
           />
 
         <MessageList
