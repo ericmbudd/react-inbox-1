@@ -4,7 +4,8 @@
     "subject": "You can't input the protocol without calculating the mobile RSS protocol!",
     "read": false,
     "starred": true,
-    "labels": ["dev", "personal"]
+    "labels": ["dev", "personal"],
+    "bodyIsOpen": false
   },
   {
     "id": 2,
@@ -12,14 +13,16 @@
     "read": false,
     "starred": false,
     "selected": true,
-    "labels": []
+    "labels": [],
+    "bodyIsOpen": false
   },
   {
     "id": 3,
     "subject": "Use the 1080p HTTP feed, then you can parse the cross-platform hard drive!",
     "read": false,
     "starred": true,
-    "labels": ["dev"]
+    "labels": ["dev"],
+    "bodyIsOpen": false
   },
   {
     "id": 4,
@@ -27,34 +30,39 @@
     "read": true,
     "starred": false,
     "selected": true,
-    "labels": []
+    "labels": [],
+    "bodyIsOpen": false
   },
   {
     "id": 5,
     "subject": "If we override the interface, we can get to the HTTP feed through the virtual EXE interface!",
     "read": false,
     "starred": false,
-    "labels": ["personal"]
+    "labels": ["personal"],
+    "bodyIsOpen": false
   },
   {
     "id": 6,
     "subject": "We need to back up the wireless GB driver!",
     "read": true,
     "starred": true,
-    "labels": []
+    "labels": [],
+    "bodyIsOpen": false
   },
   {
     "id": 7,
     "subject": "We need to index the mobile PCI bus!",
     "read": true,
     "starred": false,
-    "labels": ["dev", "personal"]
+    "labels": ["dev", "personal"],
+    "bodyIsOpen": false
   },
   {
     "id": 8,
     "subject": "If we connect the sensor, we can get to the HDD port through the redundant IB firewall!",
     "read": true,
     "starred": true,
-    "labels": []
+    "labels": [],
+    "bodyIsOpen": false
   }
 ]

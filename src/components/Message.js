@@ -26,9 +26,18 @@ class Message extends React.Component {
           { this.props.eachMessage.labels.length > 0 ?
             this.props.eachMessage.labels.map((label, id) => <span key={id} className="label label-warning">{label}</span>) : ""
           }
-          <a href="#">
+          <a onClick={ this.props.openCloseBody.bind(null,this.props.eachMessage.id) } href="#">
             {this.props.eachMessage.subject}
           </a>
+          {
+            this.props.eachMessage.bodyIsOpen ?
+            <div className="row message-body">
+              <div className="col-xs-11 col-xs-offset-1">
+                This is the body of the message.
+              </div>
+            </div>
+            : ""
+          }
         </div>
       </div>
     )

@@ -14,6 +14,7 @@ class MessageList extends React.Component {
               eachMessage={ eachMessage }
               changeStarState={ this.props.changeStarState }
               changeCheckState = { this.props.changeCheckState }
+              openCloseBody={ this.props.openCloseBody }
             />
           ))
         }

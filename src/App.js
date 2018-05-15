@@ -9,10 +9,12 @@ class App extends Component {
     super(props)
     this.state = {
       allMessages: this.props.allMessages,
-      composeIsOpen: false
+      composeIsOpen: false,
+      bodyIsOpen: false
     }
   }
 
+  // METHOD TO CHANGE THE STATE OF A STAR WHEN CLICKED ON
   changeStarState = id => {
     const itemToChange = this.state.allMessages.filter((message) => message.id === id)[0]
     const i = this.state.allMessages.findIndex(message => message.id === id)
@@ -31,6 +33,7 @@ class App extends Component {
     }
   }
 
+  // METHOD TO CHANGE THE STATE OF A MESSAGE WHEN THE CHECKBOX IS CLICKED ON
   changeCheckState = id => {
     const itemToChange = this.state.allMessages.filter((message) => message.id === id)[0]
     const i = this.state.allMessages.findIndex(message => message.id === id)
@@ -49,13 +52,16 @@ class App extends Component {
     }
   }
 
+  // METHOD TO RETRIEVE ALL UNREAD MESSAGES
   unreadMessages = () => {
     return this.state.allMessages.filter(m => m.read === false).length
   }
 
+
+  // METHOD TO SELECT / DE-SELECT ALL MESSAGES
   selectAllMessages = (e) => {
     e.preventDefault()
-    if(this.state.allMessages.filter(m => m.selected === true).length < 8){
+    if(this.state.allMessages.filter(m => m.selected === true).length < this.state.allMessages.length){
       this.setState({
         allMessages: this.state.allMessages.map(m => {
             return {...m, selected: true}
@@ -70,10 +76,14 @@ class App extends Component {
     }
   }
 
+
+  // RETURN A WHETHER OR NOT SOMETHING OUGHT TO BE DISABLED
   isDisabled = () => {
     return this.state.allMessages.filter(m => m.selected === true).length < 1 ? 'true' : ""
   }
 
+
+  // MARK A MESSAGE AS READ METHOD
   markAsRead = () => {
     const toMarkAsRead = this.state.allMessages.filter(m => m.selected).map(x => x.id)
     this.setState({
@@ -86,6 +96,8 @@ class App extends Component {
     })
   }
 
+
+  // MARK A MESSAGE AS UNREAD METHOD
   markAsUnRead = () => {
     const toMarkAsUnRead = this.state.allMessages.filter(m => m.selected).map(x => x.id)
     this.setState({
@@ -98,6 +110,7 @@ class App extends Component {
     })
   }
 
+  // APPLY A LABEL METHOD
   applyLabel = (newLabel) => {
     const toApplyLabel = this.state.allMessages.filter(m => m.selected).map(x => x.id)
     this.setState({
@@ -110,6 +123,8 @@ class App extends Component {
     })
   }
 
+
+  // REMOVE A LABEL METHOD
   removeLabel = (labelToRemove) => {
     const toRemoveLabel = this.state.allMessages.filter(m => m.selected).map(x => x.id)
     this.setState({
@@ -122,6 +137,7 @@ class App extends Component {
     })
   }
 
+  // DELETE A MESSAGE MEHTHOD
   deleteMessage = () => {
     const messagesIdToDelete = this.state.allMessages.filter(m => m.selected).map(x => x.id)
     this.setState({
@@ -131,6 +147,7 @@ class App extends Component {
     })
   }
 
+  // METHODS TO OPEN AND CLOSE THE COMPOSE A MESSAGE AREA
   openCloseCompose = () => {
     this.setState({ composeIsOpen: !this.state.composeIsOpen })
   }
@@ -138,6 +155,26 @@ class App extends Component {
   isComposeOpen = () => {
     return this.state.composeIsOpen
   }
+
+  // METHOD TO OPEN AND CLOSE THE MESSAGE BODY AREA
+  openCloseBody = id => {
+    const itemToChange = this.state.allMessages.filter((message) => message.id === id)[0]
+    const i = this.state.allMessages.findIndex(message => message.id === id)
+    const firstHalf = this.state.allMessages.slice(0, i)
+    const secondHalf = this.state.allMessages.slice(i + 1)
+    if(itemToChange.bodyIsOpen){
+      itemToChange.bodyIsOpen = false
+      this.setState({
+        allMessages: firstHalf.concat([itemToChange], secondHalf)
+      })
+    } else {
+      itemToChange.bodyIsOpen = true
+      this.setState({
+        allMessages: firstHalf.concat([itemToChange], secondHalf)
+      })
+    }
+  }
+
 
   render() {
     return (
@@ -160,7 +197,9 @@ class App extends Component {
         <MessageList
            changeCheckState={ this.changeCheckState }
            changeStarState={ this.changeStarState }
-           allMessages={ this.state.allMessages } />
+           allMessages={ this.state.allMessages }
+           openCloseBody={ this.openCloseBody }
+         />
 
       </div>
     );

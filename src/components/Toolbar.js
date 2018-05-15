@@ -82,7 +82,7 @@ class Toolbar extends React.Component {
               </div>
               <div className="form-group">
                 <label htmlFor="body" className="col-sm-2 control-label">Body</label>
-                <div class="col-sm-8">
+                <div className="col-sm-8">
                   <textarea name="body" id="body" className="form-control"></textarea>
                 </div>
               </div>
