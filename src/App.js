@@ -121,6 +121,14 @@ class App extends Component {
     })
   }
 
+  deleteMessage = () => {
+    const messagesIdToDelete = this.state.allMessages.filter(m => m.selected).map(x => x.id)
+    this.setState({
+      allMessages: this.state.allMessages.filter(m => {
+        return !messagesIdToDelete.includes(m.id) === true
+      })
+    })
+  }
 
   render() {
     return (
@@ -135,6 +143,7 @@ class App extends Component {
           markAsUnRead={ this.markAsUnRead }
           applyLabel={ this.applyLabel }
           removeLabel={ this.removeLabel }
+          deleteMessage={ this.deleteMessage }
           />
 
         <MessageList

@@ -18,7 +18,7 @@ class Toolbar extends React.Component {
             <div className="col-md-12">
               <p className="pull-right">
                 <span className="badge badge">{this.props.unreadMessages()}</span>
-                {this.props.unreadMessages() > 1 ? "unread messages" : "unread message"}
+                {this.props.unreadMessages() === 1 ? "unread message" : "unread messages"}
               </p>
 
               <button onClick={ this.props.selectAllMessages } className="btn btn-default">
@@ -56,7 +56,7 @@ class Toolbar extends React.Component {
                 <option value="gschool">gschool</option>
               </select>
 
-              <button className="btn btn-default" disabled={ this.props.isDisabled() }>
+              <button className="btn btn-default" onClick={ this.props.deleteMessage } disabled={ this.props.isDisabled() }>
                 <i className="fa fa-trash-o"></i>
               </button>
             </div>
