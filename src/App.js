@@ -26,7 +26,22 @@ class App extends Component {
               method: 'PATCH'
           })
           .then(response => response.json())
-          .catch(error => console.log(error))
+          .catch(error => error)
+  }
+
+  postNewItem = async (object) => {
+    await fetch("http://localhost:8082/api/messages", {
+              body: JSON.stringify(object),
+              headers: {
+              'content-type': 'application/json'
+              },
+              method: 'POST'
+          })
+          .then(response => response.json())
+          .catch(error => error)
+    this.setState({
+      allMessages: this.state.allMessages.concat([object])
+    })
   }
 
   fetchMessagesData = async () => {
@@ -263,6 +278,7 @@ class App extends Component {
           deleteMessage={ this.deleteMessage }
           openCloseCompose={ this.openCloseCompose }
           isComposeOpen={ this.isComposeOpen }
+          postNewItem={ this.postNewItem }
           />
 
         <MessageList
