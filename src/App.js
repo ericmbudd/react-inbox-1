@@ -8,10 +8,35 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      allMessages: this.props.allMessages,
-      composeIsOpen: false,
-      bodyIsOpen: false
+      allMessages: [],
+      composeIsOpen: false
     }
+  }
+
+  componentDidMount = () => {
+    this.fetchMessagesData()
+  }
+
+  patch = async (object) => {
+    await fetch("http://localhost:8082/api/messages", {
+              body: JSON.stringify(object),
+              headers: {
+              'content-type': 'application/json'
+              },
+              method: 'PATCH'
+          })
+          .then(response => response.json())
+          .catch(error => console.log(error))
+  }
+
+  fetchMessagesData = async () => {
+    const messagesData = await fetch("http://localhost:8082/api/messages")
+                      .then(response => response.json())
+                      .then(json => json._embedded.messages)
+                      .catch(error => console.log(error))
+    this.setState({
+      allMessages: this.state.allMessages.concat(messagesData)
+    })
   }
 
   // METHOD TO CHANGE THE STATE OF A STAR WHEN CLICKED ON
@@ -20,6 +45,14 @@ class App extends Component {
     const i = this.state.allMessages.findIndex(message => message.id === id)
     const firstHalf = this.state.allMessages.slice(0, i)
     const secondHalf = this.state.allMessages.slice(i + 1)
+
+    const patchItem = {
+      "messageIds": [id],
+      "command": "star",
+      "star": !itemToChange.starred
+    }
+    this.patch(patchItem)
+
     if(itemToChange.starred){
       itemToChange.starred = false
       this.setState({
@@ -86,6 +119,14 @@ class App extends Component {
   // MARK A MESSAGE AS READ METHOD
   markAsRead = () => {
     const toMarkAsRead = this.state.allMessages.filter(m => m.selected).map(x => x.id)
+
+    const patchItem = {
+      "messageIds": toMarkAsRead,
+      "command": "read",
+      "read": true
+    }
+    this.patch(patchItem)
+
     this.setState({
       allMessages: this.state.allMessages.map(m => {
         if (toMarkAsRead.includes(m.id)){
@@ -100,6 +141,14 @@ class App extends Component {
   // MARK A MESSAGE AS UNREAD METHOD
   markAsUnRead = () => {
     const toMarkAsUnRead = this.state.allMessages.filter(m => m.selected).map(x => x.id)
+
+    const patchItem = {
+      "messageIds": toMarkAsUnRead,
+      "command": "read",
+      "read": false
+    }
+    this.patch(patchItem)
+
     this.setState({
       allMessages: this.state.allMessages.map(m => {
         if (toMarkAsUnRead.includes(m.id)){
@@ -113,6 +162,13 @@ class App extends Component {
   // APPLY A LABEL METHOD
   applyLabel = (newLabel) => {
     const toApplyLabel = this.state.allMessages.filter(m => m.selected).map(x => x.id)
+    const patchItem = {
+      "messageIds": toApplyLabel,
+      "command": "addLabel",
+      "label": newLabel
+    }
+    this.patch(patchItem)
+
     this.setState({
       allMessages: this.state.allMessages.map(m => {
         if (toApplyLabel.includes(m.id)){
@@ -127,6 +183,14 @@ class App extends Component {
   // REMOVE A LABEL METHOD
   removeLabel = (labelToRemove) => {
     const toRemoveLabel = this.state.allMessages.filter(m => m.selected).map(x => x.id)
+
+    const patchItem = {
+      "messageIds": toRemoveLabel,
+      "command": "removeLabel",
+      "label": labelToRemove
+    }
+    this.patch(patchItem)
+
     this.setState({
       allMessages: this.state.allMessages.filter(m => {
         if (toRemoveLabel.includes(m.id)){
@@ -140,6 +204,13 @@ class App extends Component {
   // DELETE A MESSAGE MEHTHOD
   deleteMessage = () => {
     const messagesIdToDelete = this.state.allMessages.filter(m => m.selected).map(x => x.id)
+
+    const patchItem = {
+      "messageIds": messagesIdToDelete,
+      "command": "delete"
+    }
+    this.patch(patchItem)
+
     this.setState({
       allMessages: this.state.allMessages.filter(m => {
         return !messagesIdToDelete.includes(m.id) === true
