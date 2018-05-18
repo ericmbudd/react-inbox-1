@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import MessageList from './components/MessageList'
 import Toolbar from './components/Toolbar'
-// import './App.css';
 
 class App extends Component {
   constructor(props){
@@ -29,8 +27,8 @@ class App extends Component {
           .catch(error => error)
   }
 
-  postNewItem = async (object) => {
-    await fetch("http://localhost:8082/api/messages", {
+  postNewItem = async (object, id) => {
+    const res = await fetch("http://localhost:8082/api/messages", {
               body: JSON.stringify(object),
               headers: {
               'content-type': 'application/json'
@@ -39,8 +37,9 @@ class App extends Component {
           })
           .then(response => response.json())
           .catch(error => error)
+          res.id = id
     this.setState({
-      allMessages: this.state.allMessages.concat([object])
+      allMessages: this.state.allMessages.concat([res])
     })
   }
 
@@ -130,6 +129,25 @@ class App extends Component {
     return this.state.allMessages.filter(m => m.selected === true).length < 1 ? 'true' : ""
   }
 
+  // MARK A MESSAGE AS READ BY CLICKING ON IT.
+  clickMarkAsRead = (id) => {
+    const patchItem = {
+      "messageIds": [id],
+      "command": "read",
+      "read": true
+    }
+    this.patch(patchItem)
+
+    this.setState({
+      allMessages: this.state.allMessages.map(m => {
+        if (id === m.id){
+          m.read = true
+        }
+        return m
+      })
+    })
+
+  }
 
   // MARK A MESSAGE AS READ METHOD
   markAsRead = () => {
@@ -246,8 +264,8 @@ class App extends Component {
   openCloseBody = id => {
     const itemToChange = this.state.allMessages.filter((message) => message.id === id)[0]
     const i = this.state.allMessages.findIndex(message => message.id === id)
-    const firstHalf = this.state.allMessages.slice(0, i)
-    const secondHalf = this.state.allMessages.slice(i + 1)
+    const firstHalf = this.state.allMessages.slice(0, i).map(x => x.bodyIsOpen = false)
+    const secondHalf = this.state.allMessages.slice(i + 1).map(x => x.bodyIsOpen = false)
     if(itemToChange.bodyIsOpen){
       itemToChange.bodyIsOpen = false
       this.setState({
@@ -264,32 +282,31 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+        <div className="App">
+          <Toolbar
+            isDisabled={ this.isDisabled }
+            selectAllMessages={ this.selectAllMessages }
+            unreadMessages={ this.unreadMessages }
+            allMessages={ this.state.allMessages }
+            markAsRead={ this.markAsRead }
+            markAsUnRead={ this.markAsUnRead }
+            applyLabel={ this.applyLabel }
+            removeLabel={ this.removeLabel }
+            deleteMessage={ this.deleteMessage }
+            openCloseCompose={ this.openCloseCompose }
+            isComposeOpen={ this.isComposeOpen }
+            postNewItem={ this.postNewItem }
+            />
 
-        <Toolbar
-          isDisabled={ this.isDisabled }
-          selectAllMessages={ this.selectAllMessages }
-          unreadMessages={ this.unreadMessages }
-          allMessages={ this.state.allMessages }
-          markAsRead={ this.markAsRead }
-          markAsUnRead={ this.markAsUnRead }
-          applyLabel={ this.applyLabel }
-          removeLabel={ this.removeLabel }
-          deleteMessage={ this.deleteMessage }
-          openCloseCompose={ this.openCloseCompose }
-          isComposeOpen={ this.isComposeOpen }
-          postNewItem={ this.postNewItem }
-          />
-
-        <MessageList
-           changeCheckState={ this.changeCheckState }
-           changeStarState={ this.changeStarState }
-           allMessages={ this.state.allMessages }
-           openCloseBody={ this.openCloseBody }
-         />
-
+          <MessageList
+             changeCheckState={ this.changeCheckState }
+             changeStarState={ this.changeStarState }
+             allMessages={ this.state.allMessages }
+             openCloseBody={ this.openCloseBody }
+             clickMarkAsRead={ this.clickMarkAsRead }
+           />
       </div>
-    );
+    )
   }
 }
 

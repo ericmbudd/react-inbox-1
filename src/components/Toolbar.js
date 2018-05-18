@@ -1,4 +1,6 @@
 import React from 'react'
+import Compose from './Compose'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 
 class Toolbar extends React.Component {
 
@@ -8,20 +10,6 @@ class Toolbar extends React.Component {
 
     removeLabelHandler = (event) => {
       return this.props.removeLabel(event.target.value)
-    }
-
-    handleSubmit = (event) => {
-      event.preventDefault()
-      const subject = this.refs.subject.value
-      const body = this.refs.body.value
-      const itemToPost = {
-        subject: subject,
-        body: body,
-        read: false,
-        starred: false,
-        labels: [],
-      }
-      this.props.postNewItem(itemToPost)
     }
 
 
@@ -35,9 +23,21 @@ class Toolbar extends React.Component {
                 {this.props.unreadMessages() === 1 ? "unread message" : "unread messages"}
               </p>
 
-              <a onClick={ this.props.openCloseCompose } className={`btn btn-${ this.props.isComposeOpen() ? "danger" : "success"}`}>
-                { this.props.isComposeOpen() ? <i className="fa fa-minus"></i> : <i className="fa fa-plus"></i> }
-              </a>
+              <Router>
+                { this.props.isComposeOpen() ?
+                  <Link to="/">
+                    <button onClick={ this.props.openCloseCompose } className={`btn btn-${ this.props.isComposeOpen() ? "danger" : "success"}`}>
+                        <i className="fa fa-minus"></i>
+                    </button>
+                  </Link>
+                  :
+                  <Link to="/compose">
+                    <button onClick={ this.props.openCloseCompose } className={`btn btn-${ this.props.isComposeOpen() ? "danger" : "success"}`}>
+                      <i className="fa fa-plus"></i>
+                    </button>
+                  </Link>
+                  }
+              </Router>
 
               <button onClick={ this.props.selectAllMessages } className="btn btn-default">
                 {
@@ -82,31 +82,12 @@ class Toolbar extends React.Component {
 
           {
             this.props.isComposeOpen() ?
-            <form onSubmit={ this.handleSubmit } className="form-horizontal well">
-              <div className="form-group">
-                <div className="col-sm-8 col-sm-offset-2">
-                  <h4>Compose Message</h4>
-                </div>
-              </div>
-              <div className="form-group">
-                <label htmlFor="subject" className="col-sm-2 control-label">Subject</label>
-                <div className="col-sm-8">
-                  <input ref="subject" type="text" className="form-control" id="subject" placeholder="Enter a subject" name="subject" />
-                </div>
-              </div>
-              <div className="form-group">
-                <label htmlFor="body" className="col-sm-2 control-label">Body</label>
-                <div className="col-sm-8">
-                  <textarea ref="body" name="body" id="body" className="form-control"></textarea>
-                </div>
-              </div>
-              <div className="form-group">
-                <div className="col-sm-8 col-sm-offset-2">
-                  <input type="submit" value="Send" className="btn btn-primary" />
-                </div>
-              </div>
-            </form> :
-            ""
+            <Router>
+              <Route exact path="/compose" render={() => (
+                  <Compose postNewItem={ this.props.postNewItem } deleteMessage={ this.props.deleteMessage } allMessages={ this.props.allMessages }/>
+              )} />
+            </Router>
+            : ""
           }
         </div>
       )

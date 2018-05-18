@@ -10,13 +10,14 @@ body {
   padding-bottom: 8px;
   cursor: pointer;
   border-bottom: 1px solid #efefef;
+  transition: .25s;
 }
 
-.message a {
+.message a, div.message {
   color: black;
 }
 
-.message a:hover, .message a:active, .message a:focus {
+.message a:hover, .message a:active, .message a:focus{
   text-decoration: none;
 }
 
@@ -36,17 +37,16 @@ body {
   background: #ffffcc;
 }
 
-.message:hover {
-  margin-left: -3px;
-  border-left: 3px solid #ccc;
-}
-
 .message-body {
-  background: #ccc;
+  color: grey;
+  border-radius: 3px;
+  background: lightgrey;
   margin-left: 0;
   margin-bottom: 1em;
+  margin-top: 1em;
   padding-top: 1em;
   padding-bottom: 1em;
+  transition: .25s;
 }
 
 .toolbar {
@@ -77,4 +77,9 @@ footer.spacer {
 
 .fa-close {
   cursor: pointer;
+}
+
+div.message {
+  display: inline;
+  border-bottom: none;
 }

@@ -1,6 +1,12 @@
 import React from 'react'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Message extends React.Component {
+
+  handleClick = () => {
+    this.props.clickMarkAsRead(this.props.eachMessage.id)
+  }
+
   render() {
     return (
       <div className={`row message ${this.props.eachMessage.read ? "read" : "unread" } ${this.props.eachMessage.selected ? "selected" : ""}`}>
@@ -22,23 +28,28 @@ class Message extends React.Component {
             </div>
           </div>
         </div>
-        <div className="col-xs-11">
-          { this.props.eachMessage.labels.length > 0 ?
-            this.props.eachMessage.labels.map((label, id) => <span key={id} className="label label-warning">{label}</span>) : ""
-          }
-          <a onClick={ this.props.openCloseBody.bind(null, this.props.eachMessage.id) } href="#">
-            {this.props.eachMessage.subject}
-          </a>
-          {
-            this.props.eachMessage.bodyIsOpen ?
-            <div className="row message-body">
-              <div className="col-xs-11 col-xs-offset-1">
-                {this.props.eachMessage.body}
+        <Router>
+          <Link to={`/messages/${this.props.eachMessage.id}`}>
+            <div onClick={ this.handleClick } className="col-xs-11">
+              { this.props.eachMessage.labels.length > 0 ?
+                this.props.eachMessage.labels.map((label, id) => <span key={id} className="label label-warning">{label}</span>) : ""
+              }
+              <div className="message" onClick={ this.props.openCloseBody.bind(null, this.props.eachMessage.id) }>
+                {this.props.eachMessage.subject}
               </div>
+              {
+                this.props.eachMessage.bodyIsOpen ?
+                <div className="row message-body">
+                  <div className="col-xs-11 col-xs-offset-1">
+                    <Route exact path={`/messages/:${this.props.eachMessage.id}`} render={() => <div>{ this.props.eachMessage.body }</div>} />
+                  </div>
+                </div>
+                :
+                <Route exact path="/" render={() => ""} />
+              }
             </div>
-            : ""
-          }
-        </div>
+          </Link>
+        </Router>
       </div>
     )
   }
