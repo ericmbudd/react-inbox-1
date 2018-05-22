@@ -22,8 +22,6 @@ class Toolbar extends React.Component {
                 <span className="badge badge">{this.props.unreadMessages()}</span>
                 {this.props.unreadMessages() === 1 ? "unread message" : "unread messages"}
               </p>
-
-              <Router>
                 { this.props.isComposeOpen() ?
                   <Link to="/">
                     <button onClick={ this.props.openCloseCompose } className={`btn btn-${ this.props.isComposeOpen() ? "danger" : "success"}`}>
@@ -36,9 +34,7 @@ class Toolbar extends React.Component {
                       <i className="fa fa-plus"></i>
                     </button>
                   </Link>
-                  }
-              </Router>
-
+                  }                  
               <button onClick={ this.props.selectAllMessages } className="btn btn-default">
                 {
                   this.props.allMessages.filter(m => m.selected).length > 0 &&

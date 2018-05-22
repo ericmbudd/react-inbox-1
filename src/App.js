@@ -37,7 +37,8 @@ class App extends Component {
           })
           .then(response => response.json())
           .catch(error => error)
-          res.id = id
+          const final = res._links.self.href.substr(res._links.self.href.lastIndexOf('/') + 1)
+          res.id = final
     this.setState({
       allMessages: this.state.allMessages.concat([res])
     })
@@ -282,6 +283,7 @@ class App extends Component {
 
   render() {
     return (
+      <Router>        
         <div className="App">
           <Toolbar
             isDisabled={ this.isDisabled }
@@ -306,6 +308,7 @@ class App extends Component {
              clickMarkAsRead={ this.clickMarkAsRead }
            />
       </div>
+    </Router>
     )
   }
 }

@@ -12,11 +12,12 @@ class MessageList extends React.Component {
                 <Message
                   clickMarkAsRead={ this.props.clickMarkAsRead }
                   key={ i }
+                  allMessages={this.props.allMessages}
                   eachMessage={ eachMessage }
                   changeStarState={ this.props.changeStarState }
                   changeCheckState = { this.props.changeCheckState }
                   openCloseBody={ this.props.openCloseBody }
-                />              
+                />
             ))
           }
         </div>

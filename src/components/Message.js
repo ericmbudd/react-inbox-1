@@ -41,11 +41,11 @@ class Message extends React.Component {
                 this.props.eachMessage.bodyIsOpen ?
                 <div className="row message-body">
                   <div className="col-xs-11 col-xs-offset-1">
-                    <Route exact path={`/messages/:${this.props.eachMessage.id}`} render={() => <div>{ this.props.eachMessage.body }</div>} />
+                    { this.props.eachMessage.body }
                   </div>
                 </div>
                 :
-                <Route exact path="/" render={() => ""} />
+                ""
               }
             </div>
           </Link>
