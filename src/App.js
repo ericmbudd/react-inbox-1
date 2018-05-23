@@ -60,36 +60,6 @@ class App extends Component {
     }
   }
 
-  // METHOD TO RETRIEVE ALL UNREAD MESSAGES
-  unreadMessages = () => {
-    return this.state.allMessages.filter(m => m.read === false).length
-  }
-
-
-  // METHOD TO SELECT / DE-SELECT ALL MESSAGES
-  selectAllMessages = (e) => {
-    e.preventDefault()
-    if(this.state.allMessages.filter(m => m.selected === true).length < this.state.allMessages.length){
-      this.setState({
-        allMessages: this.state.allMessages.map(m => {
-            return {...m, selected: true}
-        })
-      })
-    } else {
-      this.setState({
-        allMessages: this.state.allMessages.map(m => {
-          return {...m, selected: false}
-        })
-      })
-    }
-  }
-
-
-  // RETURN A WHETHER OR NOT SOMETHING OUGHT TO BE DISABLED
-  isDisabled = () => {
-    return this.state.allMessages.filter(m => m.selected === true).length < 1 ? 'true' : ""
-  }
-
   // MARK A MESSAGE AS READ BY CLICKING ON IT.
   clickMarkAsRead = (id) => {
     const patchItem = {
@@ -238,6 +208,8 @@ class App extends Component {
         allMessages: firstHalf.concat([itemToChange], secondHalf)
       })
     }
+
+    // INCLUDE A PATCH TO GET THIS TO PERSIST ...?
   }
 
 
