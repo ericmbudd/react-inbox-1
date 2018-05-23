@@ -1,4 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { postNewMessage } from '../actions/postNewMessage'
+
 
 class Compose extends React.Component {
 
@@ -14,12 +17,10 @@ class Compose extends React.Component {
       labels: []
     }
     const newIdInState =  this.props.allMessages[this.props.allMessages.length - 1].id + 1
-    this.props.postNewItem(itemToPost, newIdInState)
+    this.props.postNewMessage(itemToPost, newIdInState)
   }
 
-
-
-  render() {
+  render () {
     return (
         <div className="container">
           <form onSubmit={ this.handleSubmit } className="form-horizontal well">
@@ -51,4 +52,12 @@ class Compose extends React.Component {
   }
 }
 
-export default Compose
+const mapStateToProps = state => ({
+  allMessages: state.allMessages
+})
+
+const mapDispatchToProps = dispatch => ({
+  postNewMessage
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Compose)

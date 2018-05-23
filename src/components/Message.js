@@ -1,5 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { clickMarkAsRead } from '../actions/clickMarkAsRead'
+import { changeStar } from '../actions/changeStar'
+import { changeCheckbox } from '../actions/changeCheckbox'
+import { openCloseBody } from '../actions/openCloseBody'
 
 class Message extends React.Component {
 
@@ -14,7 +19,7 @@ class Message extends React.Component {
           <div className="row">
             <div className="col-xs-2">
               <input
-                onChange={ this.props.changeCheckState.bind(null, this.props.eachMessage.id) }
+                onChange={ this.props.changeCheckbox.bind(null, this.props.eachMessage.id) }
                 type="checkbox"
                 checked={this.props.eachMessage.selected ? "checked" : ""}
               />
@@ -22,8 +27,8 @@ class Message extends React.Component {
             <div className="col-xs-2" >
               {
                 this.props.eachMessage.starred ?
-                <i onClick={ this.props.changeStarState.bind(null, this.props.eachMessage.id) } className="star fa fa-star"></i> :
-                <i onClick={ this.props.changeStarState.bind(null, this.props.eachMessage.id) } className="star fa fa-star-o"></i>
+                <i onClick={ this.props.changeStar.bind(null, this.props.eachMessage.id) } className="star fa fa-star"></i> :
+                <i onClick={ this.props.changeStar.bind(null, this.props.eachMessage.id) } className="star fa fa-star-o"></i>
               }
             </div>
           </div>
@@ -55,4 +60,18 @@ class Message extends React.Component {
   }
 }
 
-export default Message
+const mapStateToProps = state = {
+  state.allMessages.map(eachMessage => {
+      return { eachMessage }
+  })
+}
+
+const mapDispatchToProps = dispatch => ({
+  clickMarkAsRead,
+  changeStar,
+  changeCheckbox,
+  openCloseBody
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Message)

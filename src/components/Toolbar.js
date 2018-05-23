@@ -1,6 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Compose from './Compose'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import { addLabel, removeLabel } from '../actions/addRemoveLabel'
+import { getUnreadMessages } from '../actions/getUnreadMessages'
+import { isComposeOpen } from '../actions/isComposeOpen'
+import { openCloseCompose } from '../actions/openCloseCompose'
+import { selectAllMessages } from '../actions/selectAllMessages'
+import { markAsRead, markAsUnRead } from '../actions/changeRead'
+import { isDisabled } from '../actions/isDisabled'
+import { deleteMessage } from '../actions/deleteMessage'
+
 
 class Toolbar extends React.Component {
 
@@ -34,7 +44,7 @@ class Toolbar extends React.Component {
                       <i className="fa fa-plus"></i>
                     </button>
                   </Link>
-                  }                  
+                  }
               <button onClick={ this.props.selectAllMessages } className="btn btn-default">
                 {
                   this.props.allMessages.filter(m => m.selected).length > 0 &&
@@ -80,7 +90,7 @@ class Toolbar extends React.Component {
             this.props.isComposeOpen() ?
             <Router>
               <Route exact path="/compose" render={() => (
-                  <Compose postNewItem={ this.props.postNewItem } deleteMessage={ this.props.deleteMessage } allMessages={ this.props.allMessages }/>
+                  <Compose />
               )} />
             </Router>
             : ""
@@ -90,4 +100,23 @@ class Toolbar extends React.Component {
     }
 }
 
-export default Toolbar
+const mapStateToProps = state => {
+  return {
+    allMessages: state.allMessages
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+      addLabel,
+      removeLabel,
+      getUnreadMessages,
+      isComposeOpen,
+      openCloseCompose,
+      selectAllMessages,
+      markAsRead,
+      markAsUnRead,
+      isDisabled,
+      deleteMessage
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Toolbar)

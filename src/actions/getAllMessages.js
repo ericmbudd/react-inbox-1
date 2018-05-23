@@ -3,7 +3,7 @@ export const getAllMessages = () => {
     fetch("http://localhost:8082/api/messages")
       .then(response => response.json())
       .then(json => json._embedded.messages)
-      .then(result => {
+      .then(payload => {
         dispatch({ type: 'GET_ALL_MESSAGES', payload })
       })
       .catch(error => {
