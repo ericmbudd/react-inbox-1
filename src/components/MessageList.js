@@ -8,15 +8,13 @@ class MessageList extends React.Component {
     return (
         <div className="container">
           {
-            this.props.allMessages.map((eachMessage, i) => <Message key={i} /> )
+            this.props.allMessages.map((eachMessage, i) => <Message key={i} eachMessage={ eachMessage } /> )
           }
         </div>
     )
   }
 }
 
-const mapStateToProps = state => {
-  return { allMessages: state.allMessages }
-}
+const mapStateToProps = state => ({ allMessages: state.allMessages })
 
 export default connect(mapStateToProps)(MessageList)

@@ -1,1 +1,1 @@
-export const isComposeOpen = () => { type: 'IS_COMPOSE_OPEN' } 
+export const isComposeOpen = () => dispatch => dispatch({ type: 'IS_COMPOSE_OPEN' } )

@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { clickMarkAsRead } from '../actions/clickMarkAsRead'
+import { clickMarkAsRead } from '../actions/changeRead'
 import { changeStar } from '../actions/changeStar'
 import { changeCheckbox } from '../actions/changeCheckbox'
 import { openCloseBody } from '../actions/openCloseBody'
@@ -33,8 +32,6 @@ class Message extends React.Component {
             </div>
           </div>
         </div>
-        <Router>
-          <Link to={`/messages/${this.props.eachMessage.id}`}>
             <div onClick={ this.handleClick } className="col-xs-11">
               { this.props.eachMessage.labels.length > 0 ?
                 this.props.eachMessage.labels.map((label, id) => <span key={id} className="label label-warning">{label}</span>) : ""
@@ -53,17 +50,9 @@ class Message extends React.Component {
                 ""
               }
             </div>
-          </Link>
-        </Router>
       </div>
     )
   }
-}
-
-const mapStateToProps = state = {
-  state.allMessages.map(eachMessage => {
-      return { eachMessage }
-  })
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -74,4 +63,4 @@ const mapDispatchToProps = dispatch => ({
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Message)
+export default connect(null, mapDispatchToProps)(Message)

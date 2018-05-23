@@ -1,6 +1,6 @@
-export const postNewItem = (state, action) => {
+export const postNewMessage = async (state, action) => {
   switch(action.type) {
-    case: 'POST_NEW_MESSAGES'
+    case 'POST_NEW_MESSAGES':
         const res = await fetch("http://localhost:8082/api/messages", {
                   body: JSON.stringify(action.object),
                   headers: {

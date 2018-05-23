@@ -10,6 +10,7 @@ import { selectAllMessages } from '../actions/selectAllMessages'
 import { markAsRead, markAsUnRead } from '../actions/changeRead'
 import { isDisabled } from '../actions/isDisabled'
 import { deleteMessage } from '../actions/deleteMessage'
+import { getAllMessages } from '../actions/getAllMessages'
 
 
 class Toolbar extends React.Component {
@@ -21,7 +22,6 @@ class Toolbar extends React.Component {
     removeLabelHandler = (event) => {
       return this.props.removeLabel(event.target.value)
     }
-
 
     render() {
       return (
@@ -100,11 +100,7 @@ class Toolbar extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-  return {
-    allMessages: state.allMessages
-  }
-}
+const mapStateToProps = state => ({allMessages: state.allMessages})
 
 const mapDispatchToProps = dispatch => ({
       addLabel,
@@ -116,7 +112,8 @@ const mapDispatchToProps = dispatch => ({
       markAsRead,
       markAsUnRead,
       isDisabled,
-      deleteMessage
+      deleteMessage,
+      getAllMessages
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toolbar)

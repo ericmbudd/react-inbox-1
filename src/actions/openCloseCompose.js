@@ -1,1 +1,1 @@
-export const openCloseCompose = () => { type: 'OPEN_CLOSE_COMPOSE' }
+export const openCloseCompose = () => dispatch => dispatch({ type: 'OPEN_CLOSE_COMPOSE' })

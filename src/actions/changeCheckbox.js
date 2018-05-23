@@ -1,1 +1,1 @@
-export const changeCheckState = (id) => dispatch => dispatch({ type: 'CHANGE_CHECK_STATE', id })
+export const changeCheckbox = (id) => dispatch => dispatch({ type: 'CHANGE_CHECK_STATE', id })
