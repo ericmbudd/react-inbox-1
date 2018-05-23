@@ -3,17 +3,6 @@ import MessageList from './components/MessageList'
 import Toolbar from './components/Toolbar'
 
 class App extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      allMessages: [],
-      composeIsOpen: false
-    }
-  }
-
-  componentDidMount = () => {
-    this.fetchMessagesData()
-  }
 
   patch = async (object) => {
     await fetch("http://localhost:8082/api/messages", {
@@ -44,16 +33,6 @@ class App extends Component {
     })
   }
 
-  fetchMessagesData = async () => {
-    const messagesData = await fetch("http://localhost:8082/api/messages")
-                      .then(response => response.json())
-                      .then(json => json._embedded.messages)
-                      .catch(error => console.log(error))
-    this.setState({
-      allMessages: this.state.allMessages.concat(messagesData)
-    })
-  }
-
   // METHOD TO CHANGE THE STATE OF A STAR WHEN CLICKED ON
   changeStarState = id => {
     const itemToChange = this.state.allMessages.filter((message) => message.id === id)[0]
@@ -75,25 +54,6 @@ class App extends Component {
       })
     } else {
       itemToChange.starred = true
-      this.setState({
-        allMessages: firstHalf.concat([itemToChange], secondHalf)
-      })
-    }
-  }
-
-  // METHOD TO CHANGE THE STATE OF A MESSAGE WHEN THE CHECKBOX IS CLICKED ON
-  changeCheckState = id => {
-    const itemToChange = this.state.allMessages.filter((message) => message.id === id)[0]
-    const i = this.state.allMessages.findIndex(message => message.id === id)
-    const firstHalf = this.state.allMessages.slice(0, i)
-    const secondHalf = this.state.allMessages.slice(i + 1)
-    if(itemToChange.selected){
-      itemToChange.selected = false
-      this.setState({
-        allMessages: firstHalf.concat([itemToChange], secondHalf)
-      })
-    } else {
-      itemToChange.selected = true
       this.setState({
         allMessages: firstHalf.concat([itemToChange], secondHalf)
       })
@@ -283,7 +243,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router>        
+      <Router>
         <div className="App">
           <Toolbar
             isDisabled={ this.isDisabled }
