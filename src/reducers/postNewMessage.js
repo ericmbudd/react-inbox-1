@@ -1,6 +1,6 @@
 export const postNewMessage = async (state = { allMessages: [] }, action) => {
     switch(action.type) {
-      case 'POST_NEW_MESSAGES':
+      case 'POST_NEW_MESSAGE':
           const res = await fetch("http://localhost:8082/api/messages", {
                     body: JSON.stringify(action.object),
                     headers: {

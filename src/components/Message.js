@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { clickMarkAsRead } from '../actions/changeRead'
 import { changeStar } from '../actions/changeStar'
 import { changeCheckbox } from '../actions/changeCheckbox'
@@ -55,13 +56,12 @@ class Message extends React.Component {
   }
 }
 
-
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   clickMarkAsRead,
   changeStar,
   changeCheckbox,
   openCloseBody
-})
+ }, dispatch)
 
 
 export default connect(null, mapDispatchToProps)(Message)

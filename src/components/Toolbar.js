@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Compose from './Compose'
+import { bindActionCreators } from 'redux'
 import { addLabel, removeLabel } from '../actions/addRemoveLabel'
 import { getUnreadMessages } from '../actions/getUnreadMessages'
 import { isComposeOpen } from '../actions/isComposeOpen'
@@ -9,14 +9,10 @@ import { selectAllMessages } from '../actions/selectAllMessages'
 import { markAsRead, markAsUnRead } from '../actions/changeRead'
 import { isDisabled } from '../actions/isDisabled'
 import { deleteMessage } from '../actions/deleteMessage'
-import { getAllMessages } from '../actions/getAllMessages'
+import Compose from './Compose'
 
 
 class Toolbar extends React.Component {
-
-    componentDidMount( ){
-      this.props.getAllMessages()
-    }
 
     addLabelHandler = (event) => {
       return this.props.applyLabel(event.target.value)
@@ -96,20 +92,19 @@ class Toolbar extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({ allMessages: [] })
+const mapStateToProps = state => state.getAllMessages
 
-const mapDispatchToProps = dispatch => ({
-      addLabel,
-      removeLabel,
-      getUnreadMessages,
-      isComposeOpen,
-      openCloseCompose,
-      selectAllMessages,
-      markAsRead,
-      markAsUnRead,
-      isDisabled,
-      deleteMessage,
-      getAllMessages
-})
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  addLabel,
+  removeLabel,
+  getUnreadMessages,
+  isComposeOpen,
+  openCloseCompose,
+  selectAllMessages,
+  markAsRead,
+  markAsUnRead,
+  isDisabled,
+  deleteMessage
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toolbar)

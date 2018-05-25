@@ -1,12 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Message from '../components/Message'
+import { bindActionCreators } from 'redux'
 import { getAllMessages } from '../actions/getAllMessages'
 
 class MessageList extends React.Component {
 
-  componentDidMount() {
-    getAllMessages()
+  compoonentDidMount(){
+    this.props.getAllMessages()
   }
 
   render() {
@@ -20,8 +21,8 @@ class MessageList extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ allMessages: [] })
+const mapStateToProps = state => state.getAllMessages
 
-const mapDispatchToProps = dispatch => ({ getAllMessages })
+const mapDispatchToProps = (dispatch) => bindActionCreators({ getAllMessages }, dispatch)
 
-export default connect(mapStateToProps)(MessageList)
+export default connect(mapStateToProps, mapDispatchToProps)(MessageList)
