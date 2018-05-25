@@ -1,8 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Message from '../components/Message'
+import { getAllMessages } from '../actions/getAllMessages'
 
 class MessageList extends React.Component {
+
+  componentDidMount() {
+    getAllMessages()
+  }
 
   render() {
     return (
@@ -15,6 +20,8 @@ class MessageList extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ allMessages: state.allMessages })
+const mapStateToProps = state => ({ allMessages: [] })
+
+const mapDispatchToProps = dispatch => ({ getAllMessages })
 
 export default connect(mapStateToProps)(MessageList)

@@ -3,13 +3,9 @@ import MessageList from './components/MessageList'
 import Toolbar from './components/Toolbar'
 import { getAllMessages } from './actions/getAllMessages'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 class App extends Component {
-
-  componentDidMount(){
-    this.props.getAllMessages()
-  }
-
   render() {
     return (
       <div className="App">
@@ -20,8 +16,6 @@ class App extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-    getAllMessages
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ getAllMessages }, dispatch)
 
 export default connect(null, mapDispatchToProps)(App)

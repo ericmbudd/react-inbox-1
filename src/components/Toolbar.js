@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Compose from './Compose'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import { addLabel, removeLabel } from '../actions/addRemoveLabel'
 import { getUnreadMessages } from '../actions/getUnreadMessages'
 import { isComposeOpen } from '../actions/isComposeOpen'
@@ -14,6 +13,10 @@ import { getAllMessages } from '../actions/getAllMessages'
 
 
 class Toolbar extends React.Component {
+
+    componentDidMount( ){
+      this.props.getAllMessages()
+    }
 
     addLabelHandler = (event) => {
       return this.props.applyLabel(event.target.value)
@@ -29,21 +32,18 @@ class Toolbar extends React.Component {
           <div className="row toolbar">
             <div className="col-md-12">
               <p className="pull-right">
-                <span className="badge badge">{this.props.unreadMessages()}</span>
-                {this.props.unreadMessages() === 1 ? "unread message" : "unread messages"}
+                <span className="badge badge">{this.props.getUnreadMessages()}</span>
+              {this.props.getUnreadMessages() === 1 ? "unread message" : "unread messages"}
               </p>
-                { this.props.isComposeOpen() ?
-                  <Link to="/">
+                { this.props.isComposeOpen()
+                  ?
                     <button onClick={ this.props.openCloseCompose } className={`btn btn-${ this.props.isComposeOpen() ? "danger" : "success"}`}>
                         <i className="fa fa-minus"></i>
                     </button>
-                  </Link>
                   :
-                  <Link to="/compose">
                     <button onClick={ this.props.openCloseCompose } className={`btn btn-${ this.props.isComposeOpen() ? "danger" : "success"}`}>
                       <i className="fa fa-plus"></i>
                     </button>
-                  </Link>
                   }
               <button onClick={ this.props.selectAllMessages } className="btn btn-default">
                 {
@@ -87,12 +87,8 @@ class Toolbar extends React.Component {
           </div>
 
           {
-            this.props.isComposeOpen() ?
-            <Router>
-              <Route exact path="/compose" render={() => (
-                  <Compose />
-              )} />
-            </Router>
+            this.props.isComposeOpen()
+            ? <Compose />
             : ""
           }
         </div>
@@ -100,7 +96,7 @@ class Toolbar extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({allMessages: state.allMessages})
+const mapStateToProps = state => ({ allMessages: [] })
 
 const mapDispatchToProps = dispatch => ({
       addLabel,

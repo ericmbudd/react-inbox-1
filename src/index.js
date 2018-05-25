@@ -6,8 +6,10 @@ import 'font-awesome/css/font-awesome.css'
 import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 import store from './store'
+import { getAllMessages } from './actions/getAllMessages'
 import { Provider } from 'react-redux'
 import App from './App'
+
 
 ReactDOM.render(
   <Provider store={ store }>

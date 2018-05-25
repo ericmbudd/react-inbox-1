@@ -55,6 +55,7 @@ class Message extends React.Component {
   }
 }
 
+
 const mapDispatchToProps = dispatch => ({
   clickMarkAsRead,
   changeStar,
