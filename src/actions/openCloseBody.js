@@ -1,6 +1,5 @@
 export const openCloseBody = (id, messages) => dispatch => {
   const itemToChange = messages.filter((message) => message.id === id)[0]
-  itemToChange.bodyIsOpen = false
   const i = messages.findIndex(message => message.id === id)
   const firstHalf = messages.slice(0, i).map(x => {
     x.bodyIsOpen = false

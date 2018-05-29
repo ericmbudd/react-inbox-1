@@ -5,11 +5,28 @@ import { clickMarkAsRead } from '../actions/changeRead'
 import { changeStar } from '../actions/changeStar'
 import { changeCheckbox } from '../actions/changeCheckbox'
 import { openCloseBody } from '../actions/openCloseBody'
+import { patchItem } from '../actions/patchItem'
 
 class Message extends React.Component {
 
-  handleClick = () => {
-    this.props.clickMarkAsRead(this.props.eachMessage.id, this.props.all)
+  handleClickMarkAsRead = (id, messages) => {
+    const objectToPatch = {
+      "messageIds": [id],
+      "command": "read",
+      "read": !this.props.eachMessage.read
+    }
+    this.props.patchItem(objectToPatch)
+    this.props.clickMarkAsRead(id, messages)
+  }
+
+  handleChangeStar = (id, messages) => {
+    const objectToPatch = {
+      "messageIds": [id],
+      "command": "star",
+      "star": !this.props.eachMessage.starred
+    }
+    this.props.patchItem(objectToPatch)
+    this.props.changeStar(id, messages)
   }
 
   render() {
@@ -27,13 +44,13 @@ class Message extends React.Component {
             <div className="col-xs-2" >
               {
                 this.props.eachMessage.starred ?
-                <i onClick={ this.props.changeStar.bind(null, this.props.eachMessage.id, this.props.all) } className="star fa fa-star"></i> :
-                <i onClick={ this.props.changeStar.bind(null, this.props.eachMessage.id, this.props.all) } className="star fa fa-star-o"></i>
+                <i onClick={ this.handleChangeStar.bind(null, this.props.eachMessage.id, this.props.all) } className="star fa fa-star"></i> :
+                <i onClick={ this.handleChangeStar.bind(null, this.props.eachMessage.id, this.props.all) } className="star fa fa-star-o"></i>
               }
             </div>
           </div>
         </div>
-            <div onClick={ this.handleClick } className="col-xs-11">
+            <div onClick={ this.handleClickMarkAsRead.bind(null, this.props.eachMessage.id, this.props.all ) } className="col-xs-11">
               { this.props.eachMessage.labels.length > 0 ?
                 this.props.eachMessage.labels.map((label, id) => <span key={id} className="label label-warning">{label}</span>) : ""
               }
@@ -62,7 +79,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   clickMarkAsRead,
   changeStar,
   changeCheckbox,
-  openCloseBody
+  openCloseBody,
+  patchItem
  }, dispatch)
 
 

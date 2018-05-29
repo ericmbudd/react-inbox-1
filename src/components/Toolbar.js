@@ -6,17 +6,18 @@ import { openCloseCompose } from '../actions/openCloseCompose'
 import { selectAllMessages } from '../actions/selectAllMessages'
 import { markAsRead, markAsUnRead } from '../actions/changeRead'
 import { deleteMessage } from '../actions/deleteMessage'
+import { patchItem } from '../actions/patchItem'
 import Compose from './Compose'
 
 
 class Toolbar extends React.Component {
 
     addLabelHandler = (event) => {
-      return this.props.applyLabel(event.target.value, this.props.all)
+      return this.props.addLabel(event.target.value, this.props.all, this.props.patchItem )
     }
 
     removeLabelHandler = (event) => {
-      return this.props.removeLabel(event.target.value, this.props.all)
+      return this.props.removeLabel(event.target.value, this.props.all, this.props.patchItem )
     }
 
     isDisabled = () => {
@@ -115,7 +116,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   selectAllMessages,
   markAsRead,
   markAsUnRead,
-  deleteMessage
+  deleteMessage,
+  patchItem
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toolbar)
