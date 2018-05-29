@@ -16,7 +16,7 @@ class Compose extends React.Component {
       starred: false,
       labels: []
     }
-    const newIdInState =  this.props.allMessages[this.props.allMessages.length - 1].id + 1
+    const newIdInState =  this.props.messages[this.props.messages.length - 1].id + 1
     this.props.postNewMessage(itemToPost, newIdInState)
   }
 

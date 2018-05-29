@@ -9,7 +9,7 @@ import { openCloseBody } from '../actions/openCloseBody'
 class Message extends React.Component {
 
   handleClick = () => {
-    this.props.clickMarkAsRead(this.props.eachMessage.id)
+    this.props.clickMarkAsRead(this.props.eachMessage.id, this.props.all)
   }
 
   render() {
@@ -19,16 +19,16 @@ class Message extends React.Component {
           <div className="row">
             <div className="col-xs-2">
               <input
-                onChange={ this.props.changeCheckbox.bind(null, this.props.eachMessage.id) }
+                onChange={ this.props.changeCheckbox.bind(null, this.props.eachMessage.id, this.props.all) }
                 type="checkbox"
-                checked={this.props.eachMessage.selected ? "checked" : ""}
+                checked={ this.props.eachMessage.selected ? "checked" : "" }
               />
             </div>
             <div className="col-xs-2" >
               {
                 this.props.eachMessage.starred ?
-                <i onClick={ this.props.changeStar.bind(null, this.props.eachMessage.id) } className="star fa fa-star"></i> :
-                <i onClick={ this.props.changeStar.bind(null, this.props.eachMessage.id) } className="star fa fa-star-o"></i>
+                <i onClick={ this.props.changeStar.bind(null, this.props.eachMessage.id, this.props.all) } className="star fa fa-star"></i> :
+                <i onClick={ this.props.changeStar.bind(null, this.props.eachMessage.id, this.props.all) } className="star fa fa-star-o"></i>
               }
             </div>
           </div>
@@ -37,7 +37,7 @@ class Message extends React.Component {
               { this.props.eachMessage.labels.length > 0 ?
                 this.props.eachMessage.labels.map((label, id) => <span key={id} className="label label-warning">{label}</span>) : ""
               }
-              <div className="message" onClick={ this.props.openCloseBody.bind(null, this.props.eachMessage.id) }>
+              <div className="message" onClick={ this.props.openCloseBody.bind(null, this.props.eachMessage.id, this.props.all) }>
                 {this.props.eachMessage.subject}
               </div>
               {
@@ -56,6 +56,8 @@ class Message extends React.Component {
   }
 }
 
+const mapStateToProps = state => state.messages
+
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   clickMarkAsRead,
   changeStar,
@@ -64,4 +66,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
  }, dispatch)
 
 
-export default connect(null, mapDispatchToProps)(Message)
+export default connect(mapStateToProps, mapDispatchToProps)(Message)

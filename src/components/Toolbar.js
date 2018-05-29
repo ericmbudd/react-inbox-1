@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { addLabel, removeLabel } from '../actions/addRemoveLabel'
-import { isComposeOpen } from '../actions/isComposeOpen'
 import { openCloseCompose } from '../actions/openCloseCompose'
 import { selectAllMessages } from '../actions/selectAllMessages'
 import { markAsRead, markAsUnRead } from '../actions/changeRead'
@@ -13,19 +12,23 @@ import Compose from './Compose'
 class Toolbar extends React.Component {
 
     addLabelHandler = (event) => {
-      return this.props.applyLabel(event.target.value)
+      return this.props.applyLabel(event.target.value, this.props.all)
     }
 
     removeLabelHandler = (event) => {
-      return this.props.removeLabel(event.target.value)
+      return this.props.removeLabel(event.target.value, this.props.all)
     }
 
     isDisabled = () => {
-      return this.props.messages.filter(m => m.selected === true).length < 1 ? 'true' : ""
+      return this.props.all.filter(m => m.selected === true).length < 1 ? 'true' : ""
     }
 
     getUnreadMessages = () => {
-      return this.props.messages.filter(m => m.read === false).length
+      return this.props.all.filter(m => m.read === false).length
+    }
+
+    isComposeOpen = () => {
+      return this.props.composeIsOpen
     }
 
     render() {
@@ -34,35 +37,35 @@ class Toolbar extends React.Component {
           <div className="row toolbar">
             <div className="col-md-12">
               <p className="pull-right">
-                <span className="badge badge">{ this.getUnreadMessages().messages }</span>
+                <span className="badge badge">{ this.getUnreadMessages() }</span>
               {this.getUnreadMessages() === 1 ? "unread message" : "unread messages"}
               </p>
-                { this.props.isComposeOpen()
+                { this.isComposeOpen()
                   ?
-                    <button onClick={ this.props.openCloseCompose } className={`btn btn-${ this.props.isComposeOpen() ? "danger" : "success"}`}>
+                    <button onClick={ this.props.openCloseCompose } className={`btn btn-${ this.props.composeIsOpen ? "danger" : "success"}`}>
                         <i className="fa fa-minus"></i>
                     </button>
                   :
-                    <button onClick={ this.props.openCloseCompose } className={`btn btn-${ this.props.isComposeOpen() ? "danger" : "success"}`}>
+                    <button onClick={ this.props.openCloseCompose } className={`btn btn-${ this.props.composeIsOpen ? "danger" : "success"}`}>
                       <i className="fa fa-plus"></i>
                     </button>
                   }
               <button onClick={ this.props.selectAllMessages } className="btn btn-default">
                 {
-                  this.props.messages.filter(m => m.selected).length > 0 &&
-                  this.props.messages.filter(m => m.selected).length < 8 ?
+                  this.props.all.filter(m => m.selected).length > 0 &&
+                  this.props.all.filter(m => m.selected).length < 8 ?
                   <i className="fa fa-minus-square-o"></i> :
-                  this.props.messages.filter(m => m.selected).length < 1 ?
+                  this.props.all.filter(m => m.selected).length < 1 ?
                   <i className="fa fa-square-o"></i> :
                   <i className="fa fa-check-square-o"></i>
                 }
               </button>
 
-              <button onClick={ this.props.markAsRead } className="btn btn-default" disabled={ this.isDisabled() }>
+              <button onClick={ this.props.markAsRead.bind(null, this.props.all) } className="btn btn-default" disabled={ this.isDisabled() }>
                 Mark As Read
               </button>
 
-              <button onClick={ this.props.markAsUnRead } className="btn btn-default" disabled={ this.isDisabled() }>
+              <button onClick={ this.props.markAsUnRead.bind(null, this.props.all) } className="btn btn-default" disabled={ this.isDisabled() }>
                 Mark As Unread
               </button>
 
@@ -82,14 +85,14 @@ class Toolbar extends React.Component {
                 <option value="gschool">gschool</option>
               </select>
 
-              <button className="btn btn-default" onClick={ this.props.deleteMessage } disabled={ this.isDisabled() }>
+              <button className="btn btn-default" onClick={ this.props.deleteMessage.bind(null, this.props.all) } disabled={ this.isDisabled() }>
                 <i className="fa fa-trash-o"></i>
               </button>
             </div>
           </div>
 
           {
-            this.props.isComposeOpen()
+            this.isComposeOpen()
             ? <Compose />
             : ""
           }
@@ -98,12 +101,16 @@ class Toolbar extends React.Component {
     }
 }
 
-const mapStateToProps = state => state.messages
+const mapStateToProps = state => {
+  return {
+      all: state.messages.all,
+      composeIsOpen: state.composeForm.composeIsOpen
+  }
+}
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   addLabel,
   removeLabel,
-  isComposeOpen,
   openCloseCompose,
   selectAllMessages,
   markAsRead,

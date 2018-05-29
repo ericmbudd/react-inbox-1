@@ -14,7 +14,7 @@ class MessageList extends React.Component {
     return (
         <div className="container">
           {
-            this.props.messages.map((eachMessage, i) => <Message key={i} eachMessage={ eachMessage } /> )
+            this.props.all.map((eachMessage, i) => <Message key={i} eachMessage={ eachMessage } /> )
           }
         </div>
     )
