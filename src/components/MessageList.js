@@ -6,7 +6,7 @@ import { getAllMessages } from '../actions/getAllMessages'
 
 class MessageList extends React.Component {
 
-  compoonentDidMount(){
+  componentWillMount(){
     this.props.getAllMessages()
   }
 
@@ -14,14 +14,14 @@ class MessageList extends React.Component {
     return (
         <div className="container">
           {
-            this.props.allMessages.map((eachMessage, i) => <Message key={i} eachMessage={ eachMessage } /> )
+            this.props.messages.map((eachMessage, i) => <Message key={i} eachMessage={ eachMessage } /> )
           }
         </div>
     )
   }
 }
 
-const mapStateToProps = state => state.getAllMessages
+const mapStateToProps = state => state.messages
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ getAllMessages }, dispatch)
 

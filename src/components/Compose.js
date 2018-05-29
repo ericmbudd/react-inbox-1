@@ -52,7 +52,7 @@ class Compose extends React.Component {
   }
 }
 
-const mapStateToProps = state => state.getAllMessages
+const mapStateToProps = state => state.messages
 
 const mapDispatchToProps = dispatch => ({
   postNewMessage

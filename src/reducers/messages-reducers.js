@@ -16,19 +16,19 @@ import {
   OPEN_CLOSE_BODY
 } from '../constants'
 
-export const messages = ( state={ allMessages: [] }, action) => {  
+export const messages = ( state={ messages: [] }, action) => {
   switch(action.type){
     case GET_ALL_MESSAGES:
        return {
          ...state,
-         allMessages: action.payload
+         messages: action.payload
        }
 
      case ADD_NEW_LABEL:
-      const toApplyLabel = state.allMessages.filter(m => m.selected).map(x => x.id)
+      const toApplyLabel = state.messages.filter(m => m.selected).map(x => x.id)
        return {
          ...state,
-         allMessages: state.allMessages.map(m => {
+         messages: state.messages.map(m => {
            if (toApplyLabel.includes(m.id)){
              m.labels = m.labels.includes(action.newLabel)
                ? m.labels
@@ -39,10 +39,10 @@ export const messages = ( state={ allMessages: [] }, action) => {
        }
 
      case REMOVE_LABEL:
-      const toRemoveLabel = state.allMessages.filter(m => m.selected).map(x => x.id)
+      const toRemoveLabel = state.messages.filter(m => m.selected).map(x => x.id)
        return {
          ...state,
-         allMessages: state.allMessages.filter(m => {
+         messages: state.messages.filter(m => {
            if (toRemoveLabel.includes(m.id)){
              m.labels = m.labels.filter(l => l !== action.labelToRemove)
            }
@@ -50,34 +50,34 @@ export const messages = ( state={ allMessages: [] }, action) => {
          })
        }
      case CHANGE_STAR_STATE:
-        const itemToChange = state.allMessages.filter((message) => message.id === action.id)[0]
-        const i = state.allMessages.findIndex(message => message.id === action.id)
-        let firstHalf = state.allMessages.slice(0, i)
-        let secondHalf = state.allMessages.slice(i + 1)
+        const itemToChange = state.messages.filter((message) => message.id === action.id)[0]
+        const i = state.messages.findIndex(message => message.id === action.id)
+        let firstHalf = state.messages.slice(0, i)
+        let secondHalf = state.messages.slice(i + 1)
         if(itemToChange.starred){
           itemToChange.starred = false
             return {...state,
-            allMessages: firstHalf.concat([itemToChange], secondHalf)
+            messages: firstHalf.concat([itemToChange], secondHalf)
           }
         } else {
           itemToChange.starred = true
             return {...state,
-            allMessages: firstHalf.concat([itemToChange], secondHalf)
+            messages: firstHalf.concat([itemToChange], secondHalf)
           }
         }
 
      case CHANGE_CHECK_STATE:
           if(itemToChange.selected){
               itemToChange.selected = false
-              return {...state, allMessages: firstHalf.concat([itemToChange], secondHalf)}
+              return {...state, messages: firstHalf.concat([itemToChange], secondHalf)}
           } else {
               itemToChange.selected = true
-              return {...state, allMessages: firstHalf.concat([itemToChange], secondHalf)}
+              return {...state, messages: firstHalf.concat([itemToChange], secondHalf)}
             }
 
       case CLICK_MARK_AS_READ:
         return {...state,
-          allMessages: state.allMessages.map(m => {
+          messages: state.messages.map(m => {
               if (action.id === m.id){
                 m.read = true
               }
@@ -86,9 +86,9 @@ export const messages = ( state={ allMessages: [] }, action) => {
           }
 
       case MARK_AS_READ:
-        const toMarkAsRead = state.allMessages.filter(m => m.selected).map(x => x.id)
+        const toMarkAsRead = state.messages.filter(m => m.selected).map(x => x.id)
         return {...state,
-          allMessages: state.allMessages.map(m => {
+          messages: state.messages.map(m => {
             if (toMarkAsRead.includes(m.id)){
               m.read = true
             }
@@ -97,9 +97,9 @@ export const messages = ( state={ allMessages: [] }, action) => {
         }
 
       case MARK_AS_UNREAD:
-        const toMarkAsUnRead = state.allMessages.filter(m => m.selected).map(x => x.id)
+        const toMarkAsUnRead = state.messages.filter(m => m.selected).map(x => x.id)
         return {...state,
-          allMessages: state.allMessages.map(m => {
+          messages: state.messages.map(m => {
             if (toMarkAsUnRead.includes(m.id)){
               m.read = false
             }
@@ -108,53 +108,43 @@ export const messages = ( state={ allMessages: [] }, action) => {
         }
 
       case DELETE_MESSAGE:
-          const messagesIdToDelete = state.allMessages.filter(m => m.selected).map(x => x.id)
+          const messagesIdToDelete = state.messages.filter(m => m.selected).map(x => x.id)
           return {...state,
-            allMessages: state.allMessages.filter(m => !messagesIdToDelete.includes(m.id) === true )
+            messages: state.messages.filter(m => !messagesIdToDelete.includes(m.id) === true )
           }
 
-      case GET_UNREAD_MESSAGES:
-        if(state.allMessages.length > 0){
-            return state.allMessages.filter(m => m.read === false).length
-        } else {
-            return state
-        }
-
-      case IS_DISABLED:
-        return state.allMessages.filter(m => m.selected === true).length < 1 ? 'true' : ""
-
       case OPEN_CLOSE_BODY:
-        firstHalf = state.allMessages.slice(0, i).map(x => x.bodyIsOpen = false)
-        secondHalf = state.allMessages.slice(i + 1).map(x => x.bodyIsOpen = false)
+        firstHalf = state.messages.slice(0, i).map(x => x.bodyIsOpen = false)
+        secondHalf = state.messages.slice(i + 1).map(x => x.bodyIsOpen = false)
         if(itemToChange.bodyIsOpen){
           itemToChange.bodyIsOpen = false
             return {...state,
-              allMessages: firstHalf.concat([itemToChange], secondHalf)
+              messages: firstHalf.concat([itemToChange], secondHalf)
             }
         } else {
           itemToChange.bodyIsOpen = true
              return {...state,
-               allMessages: firstHalf.concat([itemToChange], secondHalf)
+               messages: firstHalf.concat([itemToChange], secondHalf)
              }
         }
 
       case SELECT_ALL_MESSAGES:
-            if(state.allMessages.filter(m => m.selected === true).length < state.allMessages.length){
+            if(state.messages.filter(m => m.selected === true).length < state.messages.length){
                 return {...state,
-                 allMessages: state.allMessages.map(m => {
+                 messages: state.messages.map(m => {
                     return {...m, selected: true}
                  })
                 }
             } else {
               return {...state,
-                allMessages: state.allMessages.map(m => {
+                messages: state.messages.map(m => {
                   return {...m, selected: false}
                 })
              }
            }
 
       case PATCH_ITEM:
-        return {...state, allMessages: action.payload }
+        return {...state, messages: action.payload }
 
       case POST_NEW_MESSAGE:
           const res = fetch("http://localhost:8082/api/messages", {
@@ -168,7 +158,7 @@ export const messages = ( state={ allMessages: [] }, action) => {
                 .catch(error => error)
                 const final = res._links.self.href.substr(res._links.self.href.lastIndexOf('/') + 1)
                 res[action.id] = final
-            return {...state, allMessages: state.allMessages.concat([res])}
+            return {...state, messages: state.messages.concat([res])}
       default:
         return state
   }

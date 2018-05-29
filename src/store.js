@@ -4,8 +4,8 @@ import rootReducer from './reducers'
 import logger from 'redux-logger'
 
 const middleware = [
-  logger,
   thunk,
+  logger
 ]
 
 const store = createStore(

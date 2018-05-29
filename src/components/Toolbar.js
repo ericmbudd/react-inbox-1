@@ -2,12 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { addLabel, removeLabel } from '../actions/addRemoveLabel'
-import { getUnreadMessages } from '../actions/getUnreadMessages'
 import { isComposeOpen } from '../actions/isComposeOpen'
 import { openCloseCompose } from '../actions/openCloseCompose'
 import { selectAllMessages } from '../actions/selectAllMessages'
 import { markAsRead, markAsUnRead } from '../actions/changeRead'
-import { isDisabled } from '../actions/isDisabled'
 import { deleteMessage } from '../actions/deleteMessage'
 import Compose from './Compose'
 
@@ -22,14 +20,22 @@ class Toolbar extends React.Component {
       return this.props.removeLabel(event.target.value)
     }
 
+    isDisabled = () => {
+      return this.props.messages.filter(m => m.selected === true).length < 1 ? 'true' : ""
+    }
+
+    getUnreadMessages = () => {
+      return this.props.messages.filter(m => m.read === false).length
+    }
+
     render() {
       return (
         <div className="container">
           <div className="row toolbar">
             <div className="col-md-12">
               <p className="pull-right">
-                <span className="badge badge">{this.props.getUnreadMessages()}</span>
-              {this.props.getUnreadMessages() === 1 ? "unread message" : "unread messages"}
+                <span className="badge badge">{ this.getUnreadMessages().messages }</span>
+              {this.getUnreadMessages() === 1 ? "unread message" : "unread messages"}
               </p>
                 { this.props.isComposeOpen()
                   ?
@@ -43,25 +49,25 @@ class Toolbar extends React.Component {
                   }
               <button onClick={ this.props.selectAllMessages } className="btn btn-default">
                 {
-                  this.props.allMessages.filter(m => m.selected).length > 0 &&
-                  this.props.allMessages.filter(m => m.selected).length < 8 ?
+                  this.props.messages.filter(m => m.selected).length > 0 &&
+                  this.props.messages.filter(m => m.selected).length < 8 ?
                   <i className="fa fa-minus-square-o"></i> :
-                  this.props.allMessages.filter(m => m.selected).length < 1 ?
+                  this.props.messages.filter(m => m.selected).length < 1 ?
                   <i className="fa fa-square-o"></i> :
                   <i className="fa fa-check-square-o"></i>
                 }
               </button>
 
-              <button onClick={ this.props.markAsRead } className="btn btn-default" disabled={ this.props.isDisabled() }>
+              <button onClick={ this.props.markAsRead } className="btn btn-default" disabled={ this.isDisabled() }>
                 Mark As Read
               </button>
 
-              <button onClick={ this.props.markAsUnRead } className="btn btn-default" disabled={ this.props.isDisabled() }>
+              <button onClick={ this.props.markAsUnRead } className="btn btn-default" disabled={ this.isDisabled() }>
                 Mark As Unread
               </button>
 
               <select onChange={ this.addLabelHandler } className="form-control label-select"
-                disabled={ this.props.isDisabled() } >
+                disabled={ this.isDisabled() } >
                 <option>Apply label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
@@ -69,14 +75,14 @@ class Toolbar extends React.Component {
               </select>
 
               <select onChange={ this.removeLabelHandler } className="form-control label-select"
-                disabled={ this.props.isDisabled() } >
+                disabled={ this.isDisabled() } >
                 <option>Remove label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
                 <option value="gschool">gschool</option>
               </select>
 
-              <button className="btn btn-default" onClick={ this.props.deleteMessage } disabled={ this.props.isDisabled() }>
+              <button className="btn btn-default" onClick={ this.props.deleteMessage } disabled={ this.isDisabled() }>
                 <i className="fa fa-trash-o"></i>
               </button>
             </div>
@@ -92,18 +98,16 @@ class Toolbar extends React.Component {
     }
 }
 
-const mapStateToProps = state => state.getAllMessages
+const mapStateToProps = state => state.messages
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
+const mapDispatchToProps = dispatch => bindActionCreators({
   addLabel,
   removeLabel,
-  getUnreadMessages,
   isComposeOpen,
   openCloseCompose,
   selectAllMessages,
   markAsRead,
   markAsUnRead,
-  isDisabled,
   deleteMessage
 }, dispatch)
 
