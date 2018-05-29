@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import { messages } from './messages'
-import { composeForm } from './composeForm'
+import { messages } from './messages-reducers'
+import { composeForm } from './compose-form-reducers'
 
-const rootReducer = combineReducers({  
+const rootReducer = combineReducers({
   messages,
   composeForm
 })

@@ -1,20 +1,22 @@
-export const GET_UNREAD_MESSAGES = 'GET_UNREAD_MESSAGES'
-export const ADD_NEW_LABEL = 'ADD_NEW_LABEL'
-export const REMOVE_LABEL = 'REMOVE_LABEL'
-export const CHANGE_CHECK_STATE = 'CHANGE_CHECK_STATE'
-export const CLICK_MARK_AS_READ = 'CLICK_MARK_AS_READ'
-export const MARK_AS_READ = 'MARK_AS_READ'
-export const MARK_AS_UNREAD = 'MARK_AS_UNREAD'
-export const CHANGE_STAR_STATE = 'CHANGE_STAR_STATE'
-export const DELETE_MESSAGE = 'DELETE_MESSAGE'
-export const IS_DISABLED = 'IS_DISABLED'
-export const PATCH_ITEM = 'PATCH_ITEM'
-export const POST_NEW_MESSAGE = 'POST_NEW_MESSAGE'
-export const SELECT_ALL_MESSAGES = 'SELECT_ALL_MESSAGES'
-export const GET_ALL_MESSAGES = 'GET_ALL_MESSAGES'
-export const OPEN_CLOSE_BODY = 'OPEN_CLOSE_BODY'
+import {
+  GET_UNREAD_MESSAGES,
+  ADD_NEW_LABEL,
+  REMOVE_LABEL,
+  CHANGE_CHECK_STATE,
+  CLICK_MARK_AS_READ,
+  MARK_AS_READ,
+  MARK_AS_UNREAD,
+  CHANGE_STAR_STATE,
+  DELETE_MESSAGE,
+  IS_DISABLED,
+  PATCH_ITEM,
+  POST_NEW_MESSAGE,
+  SELECT_ALL_MESSAGES,
+  GET_ALL_MESSAGES,
+  OPEN_CLOSE_BODY
+} from '../constants'
 
-export const messages = ( state={ allMessages: [] }, action) => {
+export const messages = ( state={ allMessages: [] }, action) => {  
   switch(action.type){
     case GET_ALL_MESSAGES:
        return {
@@ -23,6 +25,7 @@ export const messages = ( state={ allMessages: [] }, action) => {
        }
 
      case ADD_NEW_LABEL:
+      const toApplyLabel = state.allMessages.filter(m => m.selected).map(x => x.id)
        return {
          ...state,
          allMessages: state.allMessages.map(m => {
@@ -36,6 +39,7 @@ export const messages = ( state={ allMessages: [] }, action) => {
        }
 
      case REMOVE_LABEL:
+      const toRemoveLabel = state.allMessages.filter(m => m.selected).map(x => x.id)
        return {
          ...state,
          allMessages: state.allMessages.filter(m => {
@@ -48,8 +52,8 @@ export const messages = ( state={ allMessages: [] }, action) => {
      case CHANGE_STAR_STATE:
         const itemToChange = state.allMessages.filter((message) => message.id === action.id)[0]
         const i = state.allMessages.findIndex(message => message.id === action.id)
-        const firstHalf = state.allMessages.slice(0, i)
-        const secondHalf = state.allMessages.slice(i + 1)
+        let firstHalf = state.allMessages.slice(0, i)
+        let secondHalf = state.allMessages.slice(i + 1)
         if(itemToChange.starred){
           itemToChange.starred = false
             return {...state,
@@ -63,10 +67,6 @@ export const messages = ( state={ allMessages: [] }, action) => {
         }
 
      case CHANGE_CHECK_STATE:
-      const itemToChange = state.allMessages.filter((message) => message.id === action.id)[0]
-      const i = state.allMessages.findIndex(message => message.id === action.id)
-      const firstHalf = state.allMessages.slice(0, i)
-      const secondHalf = state.allMessages.slice(i + 1)
           if(itemToChange.selected){
               itemToChange.selected = false
               return {...state, allMessages: firstHalf.concat([itemToChange], secondHalf)}
@@ -114,16 +114,18 @@ export const messages = ( state={ allMessages: [] }, action) => {
           }
 
       case GET_UNREAD_MESSAGES:
-       return state.allMessages.filter(m => m.read === false).length
+        if(state.allMessages.length > 0){
+            return state.allMessages.filter(m => m.read === false).length
+        } else {
+            return state
+        }
 
       case IS_DISABLED:
         return state.allMessages.filter(m => m.selected === true).length < 1 ? 'true' : ""
 
       case OPEN_CLOSE_BODY:
-        const itemToChange = state.allMessages.filter((message) => message.id === action.id)[0]
-        const i = state.allMessages.findIndex(message => message.id === action.id)
-        const firstHalf = state.allMessages.slice(0, i).map(x => x.bodyIsOpen = false)
-        const secondHalf = state.allMessages.slice(i + 1).map(x => x.bodyIsOpen = false)
+        firstHalf = state.allMessages.slice(0, i).map(x => x.bodyIsOpen = false)
+        secondHalf = state.allMessages.slice(i + 1).map(x => x.bodyIsOpen = false)
         if(itemToChange.bodyIsOpen){
           itemToChange.bodyIsOpen = false
             return {...state,
