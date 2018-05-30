@@ -1,4 +1,12 @@
-export const clickMarkAsRead = (id, messages) => dispatch => {
+export const clickMarkAsRead = (id, messages, patchFunction) => dispatch => {
+
+  const objectToPatch = {
+    "messageIds": [id],
+    "command": "read",
+    "read": true
+  }
+  patchFunction(objectToPatch)
+
     return dispatch({
       type: 'CLICK_MARK_AS_READ',
       payload: messages.map(m => {
@@ -10,8 +18,16 @@ export const clickMarkAsRead = (id, messages) => dispatch => {
      })
 }
 
-export const markAsRead = (messages) => dispatch => {
+export const markAsRead = (messages, patchFunction) => dispatch => {
   const toMarkAsRead = messages.filter(m => m.selected).map(x => x.id)
+
+  const objectToPatch = {
+    "messageIds": toMarkAsRead,
+    "command": "read",
+    "read": true
+  }
+  patchFunction(objectToPatch)
+
   return dispatch({
     type: 'MARK_AS_READ',
     payload: messages.map(m => {
@@ -23,8 +39,16 @@ export const markAsRead = (messages) => dispatch => {
     })
 }
 
-export const markAsUnRead = (messages) => dispatch => {
+export const markAsUnRead = (messages, patchFunction) => dispatch => {
     const toMarkAsUnRead = messages.filter(m => m.selected).map(x => x.id)
+
+    const objectToPatch = {
+      "messageIds": toMarkAsUnRead,
+      "command": "read",
+      "read": false
+    }
+    patchFunction(objectToPatch)
+
     return dispatch({
       type: 'MARK_AS_UNREAD',
       payload: messages.map(m => {

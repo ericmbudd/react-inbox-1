@@ -62,11 +62,11 @@ class Toolbar extends React.Component {
                 }
               </button>
 
-              <button onClick={ this.props.markAsRead.bind(null, this.props.all) } className="btn btn-default" disabled={ this.isDisabled() }>
+              <button onClick={ this.props.markAsRead.bind(null, this.props.all, this.props.patchItem) } className="btn btn-default" disabled={ this.isDisabled() }>
                 Mark As Read
               </button>
 
-              <button onClick={ this.props.markAsUnRead.bind(null, this.props.all) } className="btn btn-default" disabled={ this.isDisabled() }>
+              <button onClick={ this.props.markAsUnRead.bind(null, this.props.all, this.props.patchItem) } className="btn btn-default" disabled={ this.isDisabled() }>
                 Mark As Unread
               </button>
 

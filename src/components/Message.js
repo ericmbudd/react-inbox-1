@@ -9,24 +9,12 @@ import { patchItem } from '../actions/patchItem'
 
 class Message extends React.Component {
 
-  handleClickMarkAsRead = (id, messages) => {
-    const objectToPatch = {
-      "messageIds": [id],
-      "command": "read",
-      "read": !this.props.eachMessage.read
-    }
-    this.props.patchItem(objectToPatch)
-    this.props.clickMarkAsRead(id, messages)
+  handleClickMarkAsRead = ( id, messages ) => {
+    this.props.clickMarkAsRead(id, messages, this.props.patchItem)
   }
 
-  handleChangeStar = (id, messages) => {
-    const objectToPatch = {
-      "messageIds": [id],
-      "command": "star",
-      "star": !this.props.eachMessage.starred
-    }
-    this.props.patchItem(objectToPatch)
-    this.props.changeStar(id, messages)
+  handleChangeStar = ( id, messages ) => {
+    this.props.changeStar(id, messages, this.props.patchItem)
   }
 
   render() {
@@ -54,7 +42,7 @@ class Message extends React.Component {
               { this.props.eachMessage.labels.length > 0 ?
                 this.props.eachMessage.labels.map((label, id) => <span key={id} className="label label-warning">{label}</span>) : ""
               }
-              <div className="message" onClick={ this.props.openCloseBody.bind(null, this.props.eachMessage.id, this.props.all) }>
+              <div className="message" onClick={ this.props.openCloseBody.bind(null, this.props.eachMessage.id, this.props.all, this.props.patchItem) }>
                 {this.props.eachMessage.subject}
               </div>
               {

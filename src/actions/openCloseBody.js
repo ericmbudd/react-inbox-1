@@ -1,14 +1,13 @@
-export const openCloseBody = (id, messages) => dispatch => {
-  const itemToChange = messages.filter((message) => message.id === id)[0]
-  const i = messages.findIndex(message => message.id === id)
-  const firstHalf = messages.slice(0, i).map(x => {
-    x.bodyIsOpen = false
-    return x
+export const openCloseBody = (id, messages, patchFunction) => dispatch => {
+  const newMessages = messages.map(m => {
+      m.bodyIsOpen === false
+      return m
   })
-  const secondHalf = messages.slice(i + 1).map(x => {
-    x.bodyIsOpen = false
-    return x
-  })
+  const itemToChange = newMessages.filter((message) => message.id === id)[0]
+  const i = newMessages.findIndex(message => message.id === id)
+  const firstHalf = newMessages.slice(0, i)
+  const secondHalf = newMessages.slice(i + 1)
+
 
   const updatedMessages = () => {
     if(itemToChange.bodyIsOpen){
@@ -19,6 +18,13 @@ export const openCloseBody = (id, messages) => dispatch => {
       return firstHalf.concat([itemToChange], secondHalf)
     }
   }
+
+  const objectToPatch = {
+    "messageIds": [id],
+    "command": "openCloseBody",
+    "bodyIsOpen": !itemToChange.bodyIsOpen
+  }
+  patchFunction(objectToPatch)
 
   return dispatch({
       type: 'OPEN_CLOSE_BODY',
