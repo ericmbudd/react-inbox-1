@@ -51,7 +51,7 @@ class Toolbar extends React.Component {
                       <i className="fa fa-plus"></i>
                     </button>
                   }
-              <button onClick={ this.props.selectAllMessages } className="btn btn-default">
+              <button onClick={ this.props.selectAllMessages.bind(null, this.props.all) } className="btn btn-default">
                 {
                   this.props.all.filter(m => m.selected).length > 0 &&
                   this.props.all.filter(m => m.selected).length < 8 ?
@@ -86,7 +86,7 @@ class Toolbar extends React.Component {
                 <option value="gschool">gschool</option>
               </select>
 
-              <button className="btn btn-default" onClick={ this.props.deleteMessage.bind(null, this.props.all) } disabled={ this.isDisabled() }>
+              <button className="btn btn-default" onClick={ this.props.deleteMessage.bind(null, this.props.all, this.props.patchItem) } disabled={ this.isDisabled() }>
                 <i className="fa fa-trash-o"></i>
               </button>
             </div>

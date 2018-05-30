@@ -1,6 +1,6 @@
 export const patchItem = (objectToPatch) => {
   return async dispatch => {
-      const patch = await fetch("http://localhost:8082/api/messages", {
+      await fetch("http://localhost:8082/api/messages", {
         method: 'PATCH',
         body: JSON.stringify(objectToPatch),
         headers: {

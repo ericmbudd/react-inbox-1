@@ -26,7 +26,7 @@ class Message extends React.Component {
               <input
                 onChange={ this.props.changeCheckbox.bind(null, this.props.eachMessage.id, this.props.all) }
                 type="checkbox"
-                checked={ this.props.eachMessage.selected ? "checked" : "" }
+                checked={ this.props.eachMessage.selected === true ? 'checked' : '' }
               />
             </div>
             <div className="col-xs-2" >

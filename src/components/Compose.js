@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { postNewMessage } from '../actions/postNewMessage'
 
 
@@ -9,15 +10,9 @@ class Compose extends React.Component {
     event.preventDefault()
     const subject = this.refs.subject.value
     const body = this.refs.body.value
-    const itemToPost = {
-      subject: subject,
-      body: body,
-      read: false,
-      starred: false,
-      labels: []
-    }
-    const newIdInState =  this.props.messages[this.props.messages.length - 1].id + 1
-    this.props.postNewMessage(itemToPost, newIdInState)
+    const itemToPost = { subject, body }
+    const newIdInState =  this.props.all[this.props.all.length - 1].id + 1
+    this.props.postNewMessage(newIdInState, itemToPost, this.props.all)
   }
 
   render () {
@@ -54,8 +49,6 @@ class Compose extends React.Component {
 
 const mapStateToProps = state => state.messages
 
-const mapDispatchToProps = dispatch => ({
-  postNewMessage
-})
+const mapDispatchToProps = dispatch => bindActionCreators({postNewMessage}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose)

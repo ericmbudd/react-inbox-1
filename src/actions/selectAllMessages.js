@@ -1,15 +1,14 @@
-export const selectAllMessages = () => dispatch => {
+export const selectAllMessages = messages => dispatch => {
   const updatedMessages = () => {
-    if(this.messages.all.filter(m => m.selected === true).length < this.messages.all.length){
-      this.messages.all.map(m => {
-        return {...m, selected: true}
-      })
+    if(messages.filter(m => m.selected === true).length < messages.length){
+      messages.map(m => m.selected = true)
+      return messages
     } else {
-      this.messages.all.map(m => {
-        return {...m, selected: false}
-      })
+      messages.map(m => m.selected = false)
+      return messages
     }
   }
+
 
   return dispatch({
     type: 'SELECT_ALL_MESSAGES',
