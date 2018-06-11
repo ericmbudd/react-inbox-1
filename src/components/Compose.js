@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { postNewMessage } from '../actions/postNewMessage'
+import { openCloseCompose } from '../actions/openCloseCompose'
 
 
 class Compose extends React.Component {
@@ -13,6 +14,7 @@ class Compose extends React.Component {
     const itemToPost = { subject, body }
     const newIdInState =  this.props.all[this.props.all.length - 1].id + 1
     this.props.postNewMessage(newIdInState, itemToPost, this.props.all)
+    this.props.openCloseCompose()
   }
 
   render () {
@@ -49,6 +51,6 @@ class Compose extends React.Component {
 
 const mapStateToProps = state => state.messages
 
-const mapDispatchToProps = dispatch => bindActionCreators({postNewMessage}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({postNewMessage, openCloseCompose}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose)
