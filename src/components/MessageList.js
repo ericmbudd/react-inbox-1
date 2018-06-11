@@ -21,7 +21,10 @@ class MessageList extends React.Component {
   }
 }
 
-const mapStateToProps = state => state.messages
+const mapStateToProps = state => {
+  console.log(state)
+  return state.messages
+}
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ getAllMessages }, dispatch)
 

@@ -47,7 +47,7 @@ export const messages = ( state={ all: [] }, action) => {
         return { ...state, all: action.payload }
 
       case SELECT_ALL_MESSAGES:
-        return  { ...state, all: action.payload }
+        return  { ...state, all: [...action.payload] }
 
       case PATCH_ITEM:
         return {...state, all: action.payload }

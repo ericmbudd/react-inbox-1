@@ -1,17 +1,14 @@
 export const selectAllMessages = messages => dispatch => {
-  const updatedMessages = () => {
+    let updatedMessages = null
     if(messages.filter(m => m.selected === true).length < messages.length){
       messages.map(m => m.selected = true)
-      return messages
+      updatedMessages = messages
     } else {
       messages.map(m => m.selected = false)
-      return messages
+      updatedMessages = messages
     }
-  }
-
-
   return dispatch({
     type: 'SELECT_ALL_MESSAGES',
-    payload: updatedMessages()
+    payload: updatedMessages
   })
 }
