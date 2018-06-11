@@ -6,6 +6,8 @@ import { changeStar } from '../actions/changeStar'
 import { changeCheckbox } from '../actions/changeCheckbox'
 import { openCloseBody } from '../actions/openCloseBody'
 import { patchItem } from '../actions/patchItem'
+import { Route, Link } from "react-router-dom";
+
 
 class Message extends React.Component {
 
@@ -42,9 +44,11 @@ class Message extends React.Component {
               { this.props.eachMessage.labels.length > 0 ?
                 this.props.eachMessage.labels.map((label, id) => <span key={id} className="label label-warning">{label}</span>) : ""
               }
-              <div className="message" onClick={ this.props.openCloseBody.bind(null, this.props.eachMessage.id, this.props.all, this.props.patchItem) }>
-                {this.props.eachMessage.subject}
-              </div>
+              <Link to={`/messages/${this.props.eachMessage.id}`}>
+                <div className="message" onClick={ this.props.openCloseBody.bind(null, this.props.eachMessage.id, this.props.all, this.props.patchItem) }>
+                  { this.props.eachMessage.subject }
+                </div>
+              </Link>
               {
                 this.props.eachMessage.bodyIsOpen ?
                 <div className="row message-body">

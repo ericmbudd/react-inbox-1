@@ -1,8 +1,14 @@
 export const openCloseBody = (id, messages, patchFunction) => dispatch => {
   const itemToChange = messages.filter((message) => message.id === id)[0]
   const i = messages.findIndex(message => message.id === id)
-  const firstHalf = messages.slice(0, i)
-  const secondHalf = messages.slice(i + 1)
+  const firstHalf = messages.slice(0, i).map(m => {
+    m.bodyIsOpen = false
+    return m
+  })
+  const secondHalf = messages.slice(i + 1).map(m => {
+    m.bodyIsOpen = false
+    return m
+  })
 
 
   const updatedMessages = () => {

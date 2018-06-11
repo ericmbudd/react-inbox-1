@@ -4,6 +4,7 @@ import Message from '../components/Message'
 import { bindActionCreators } from 'redux'
 import { getAllMessages } from '../actions/getAllMessages'
 
+
 class MessageList extends React.Component {
 
   componentWillMount(){
@@ -22,7 +23,6 @@ class MessageList extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state)
   return state.messages
 }
 

@@ -7,6 +7,7 @@ import { selectAllMessages } from '../actions/selectAllMessages'
 import { markAsRead, markAsUnRead } from '../actions/changeRead'
 import { deleteMessage } from '../actions/deleteMessage'
 import { patchItem } from '../actions/patchItem'
+import { Route, Link } from "react-router-dom";
 import Compose from './Compose'
 
 
@@ -41,15 +42,19 @@ class Toolbar extends React.Component {
                 <span className="badge badge">{ this.getUnreadMessages() }</span>
               {this.getUnreadMessages() === 1 ? "unread message" : "unread messages"}
               </p>
-                { this.isComposeOpen()
+                { this.isComposeOpen() === true
                   ?
+                  <Link to="/" >
                     <button onClick={ this.props.openCloseCompose } className={`btn btn-${ this.props.composeIsOpen ? "danger" : "success"}`}>
                         <i className="fa fa-minus"></i>
                     </button>
+                  </Link>
                   :
+                  <Link to="/compose">
                     <button onClick={ this.props.openCloseCompose } className={`btn btn-${ this.props.composeIsOpen ? "danger" : "success"}`}>
                       <i className="fa fa-plus"></i>
                     </button>
+                  </Link>
                   }
               <button onClick={ this.props.selectAllMessages.bind(null, this.props.all) } className="btn btn-default">
                 {
@@ -92,11 +97,8 @@ class Toolbar extends React.Component {
             </div>
           </div>
 
-          {
-            this.isComposeOpen()
-            ? <Compose />
-            : ""
-          }
+           <Route exact path="/compose" component={Compose} />
+          
         </div>
       )
     }
